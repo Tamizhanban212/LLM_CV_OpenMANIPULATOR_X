@@ -1,0 +1,7 @@
+-DROS_BUILD_SHARED_LIBS=1
+-DROS_BUILD_SHARED_LIBS=1
+-DROS_PACKAGE_NAME="open_manipulator_control_gui"
+-DROSCONSOLE_BACKEND_LOG4CXX
+-o
+/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_control_gui/include/open_manipulator_control_gui/moc_main_window.cpp
+/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_control_gui/include/open_manipulator_control_gui/main_window.hpp

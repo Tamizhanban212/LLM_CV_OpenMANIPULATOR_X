@@ -1,0 +1,8 @@
+prefix=/home/tamizhanban/Documents/ITR/openLLM/devel
+
+Name: llm_codes
+Description: Description of llm_codes
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
