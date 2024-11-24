@@ -1,5 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/5xBceLln)
-
 # Project Title: LLM-CV Integration with OpenMANIPULATOR-X
 
 This project demonstrates the integration of Large Language Models (LLMs) with computer vision (CV) systems to control the OpenMANIPULATOR-X robot. The implementation showcases the use of machine learning for effective robotic manipulations, alongside visual demonstrations.
