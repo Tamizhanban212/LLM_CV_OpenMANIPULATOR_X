@@ -3,14 +3,13 @@ import rospy
 from open_manipulator_msgs.srv import SetJointPosition, SetJointPositionRequest
 import math
 import numpy as np
-import time
 
 def ikinematics_3R(positionx, positiony, positionz, gamma, link1=0.13, link2=0.125, link3=0.14):
     L12 = link1
     L23 = link2
     L34 = link3
     xe = (positionx**2 + positiony**2)**0.5 - 0.025
-    ye = positionz - 0.054
+    ye = positionz - 0.053
     g = np.radians(gamma)
 
     x3 = xe - L34 * np.cos(g)
@@ -45,11 +44,11 @@ def control_joint(joint_names, positions, gripper_pos, path_t):
         request.path_time = path_t
         joint_control(request)
 
+        rospy.sleep(path_t)
         tool_control = rospy.ServiceProxy('/goal_tool_control', SetJointPosition)
         request = SetJointPositionRequest()
         request.joint_position.joint_name = ["gripper"]
         position = 0.01 if gripper_pos == "open" else -0.01
-        time.sleep(path_t)
         request.joint_position.position = [position]
         tool_control(request)
     except rospy.ServiceException as e:
@@ -58,15 +57,16 @@ def control_joint(joint_names, positions, gripper_pos, path_t):
 if __name__ == "__main__":
     rospy.init_node('joint_control_node', anonymous=True)
     
-    # User-provided list of (x, y, z, orientation, path_t)
+    # User-provided list of (x, y, z, orientation, path_t, gripper_pos)
     movements = [
-        (0.1, 0.1, 0.02, -90, 1),
-        (0.1, -0.1, 0.05, -80, 1),
-        (0.15, 0.0, 0.0, -70, 1)
+        (0.1, 0.1, 0.01, -80, 1.5, "open"),
+        # (0.2, -0.1, 0.03, -80, 1.5, "close"),
+        # (0.2, 0.0, 0, -80, 1.5, "open")
     ]
 
     joint_names = ["joint1", "joint2", "joint3", "joint4"]
 
-    for x, y, z, orientation, path_t in movements:
+    for x, y, z, orientation, path_t, gripper_pos in movements:
         joint_positions_degrees = IK_4R(x, y, z, orientation)
-        control_joint(joint_names, joint_positions_degrees, "open", path_t)
+        control_joint(joint_names, joint_positions_degrees, gripper_pos, path_t)
+        rospy.sleep(path_t)
