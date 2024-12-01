@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/open_manipulator_teleop/open_manipulator_teleop_keyboard"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/open_manipulator_teleop/open_manipulator_teleop_keyboard.pdb"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/open_manipulator_teleop/open_manipulator_teleop_keyboard"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/open_manipulator_teleop/open_manipulator_teleop_keyboard.pdb"
   "CMakeFiles/open_manipulator_teleop_keyboard.dir/src/open_manipulator_teleop_keyboard.cpp.o"
 )
 

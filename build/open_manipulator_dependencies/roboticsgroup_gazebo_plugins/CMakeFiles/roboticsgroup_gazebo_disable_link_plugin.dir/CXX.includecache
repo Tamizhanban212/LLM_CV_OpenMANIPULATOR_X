@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator_dependencies/roboticsgroup_gazebo_plugins/include/roboticsgroup_gazebo_plugins/disable_link_plugin.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator_dependencies/roboticsgroup_gazebo_plugins/include/roboticsgroup_gazebo_plugins/disable_link_plugin.h
 ros/ros.h
 -
 boost/bind.hpp
@@ -20,7 +20,7 @@ gazebo/physics/physics.hh
 gazebo/common/common.hh
 -
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator_dependencies/roboticsgroup_gazebo_plugins/src/disable_link_plugin.cpp
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator_dependencies/roboticsgroup_gazebo_plugins/src/disable_link_plugin.cpp
 roboticsgroup_gazebo_plugins/disable_link_plugin.h
 -
 

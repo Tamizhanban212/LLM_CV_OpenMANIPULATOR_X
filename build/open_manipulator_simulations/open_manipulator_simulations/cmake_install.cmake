@@ -1,8 +1,8 @@
-# Install script for directory: /home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator_simulations/open_manipulator_simulations
+# Install script for directory: /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator_simulations/open_manipulator_simulations
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/ITR/openLLM/install")
+  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,6 +38,6 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_simulations" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator_simulations/open_manipulator_simulations/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_simulations" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator_simulations/open_manipulator_simulations/package.xml")
 endif()
 

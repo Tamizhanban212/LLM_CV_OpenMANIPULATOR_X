@@ -1,8 +1,8 @@
-# Install script for directory: /home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_description
+# Install script for directory: /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_description
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/ITR/openLLM/install")
+  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,26 +38,26 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_description/catkin_generated/installspace/open_manipulator_description.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_description/catkin_generated/installspace/open_manipulator_description.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_description/cmake" TYPE FILE FILES
-    "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_description/catkin_generated/installspace/open_manipulator_descriptionConfig.cmake"
-    "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_description/catkin_generated/installspace/open_manipulator_descriptionConfig-version.cmake"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_description/catkin_generated/installspace/open_manipulator_descriptionConfig.cmake"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_description/catkin_generated/installspace/open_manipulator_descriptionConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_description" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_description/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_description" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_description/package.xml")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_description" TYPE DIRECTORY FILES
-    "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_description/launch"
-    "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_description/meshes"
-    "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_description/rviz"
-    "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_description/urdf"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_description/launch"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_description/meshes"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_description/rviz"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_description/urdf"
     )
 endif()
 

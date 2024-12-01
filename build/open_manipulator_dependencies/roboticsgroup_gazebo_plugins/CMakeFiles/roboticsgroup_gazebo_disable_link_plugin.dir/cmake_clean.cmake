@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/libroboticsgroup_gazebo_disable_link_plugin.pdb"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/libroboticsgroup_gazebo_disable_link_plugin.so"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/libroboticsgroup_gazebo_disable_link_plugin.pdb"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/libroboticsgroup_gazebo_disable_link_plugin.so"
   "CMakeFiles/roboticsgroup_gazebo_disable_link_plugin.dir/src/disable_link_plugin.cpp.o"
 )
 

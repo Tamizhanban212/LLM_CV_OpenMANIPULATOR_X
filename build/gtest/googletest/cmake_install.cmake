@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/ITR/openLLM/install")
+  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

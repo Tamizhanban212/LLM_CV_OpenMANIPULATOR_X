@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "".split(';') if "" != "" else []
 PROJECT_CATKIN_DEPENDS = "roscpp;std_msgs;gazebo_ros;gazebo_ros_control;controller_manager;xacro;urdf".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "open_manipulator_gazebo"
-PROJECT_SPACE_DIR = "/home/tamizhanban/Documents/ITR/openLLM/install"
+PROJECT_SPACE_DIR = "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/install"
 PROJECT_VERSION = "1.1.1"

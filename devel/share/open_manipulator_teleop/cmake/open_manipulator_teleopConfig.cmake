@@ -67,14 +67,14 @@ set(open_manipulator_teleop_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("TRUE" STREQUAL "TRUE")
-  set(open_manipulator_teleop_SOURCE_PREFIX /home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_teleop)
-  set(open_manipulator_teleop_DEVEL_PREFIX /home/tamizhanban/Documents/ITR/openLLM/devel)
+  set(open_manipulator_teleop_SOURCE_PREFIX /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_teleop)
+  set(open_manipulator_teleop_DEVEL_PREFIX /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel)
   set(open_manipulator_teleop_INSTALL_PREFIX "")
   set(open_manipulator_teleop_PREFIX ${open_manipulator_teleop_DEVEL_PREFIX})
 else()
   set(open_manipulator_teleop_SOURCE_PREFIX "")
   set(open_manipulator_teleop_DEVEL_PREFIX "")
-  set(open_manipulator_teleop_INSTALL_PREFIX /home/tamizhanban/Documents/ITR/openLLM/install)
+  set(open_manipulator_teleop_INSTALL_PREFIX /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/install)
   set(open_manipulator_teleop_PREFIX ${open_manipulator_teleop_INSTALL_PREFIX})
 endif()
 
@@ -91,9 +91,9 @@ endif()
 # flag project as catkin-based to distinguish if a find_package()-ed project is a catkin project
 set(open_manipulator_teleop_FOUND_CATKIN_PROJECT TRUE)
 
-if(NOT "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_teleop/include " STREQUAL " ")
+if(NOT "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_teleop/include " STREQUAL " ")
   set(open_manipulator_teleop_INCLUDE_DIRS "")
-  set(_include_dirs "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_teleop/include")
+  set(_include_dirs "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_teleop/include")
   if(NOT "https://github.com/ROBOTIS-GIT/open_manipulator/issues " STREQUAL " ")
     set(_report "Check the issue tracker 'https://github.com/ROBOTIS-GIT/open_manipulator/issues' and consider creating a ticket if the problem has not been reported yet.")
   elseif(NOT "http://wiki.ros.org/open_manipulator_teleop " STREQUAL " ")
@@ -110,7 +110,7 @@ if(NOT "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipu
         message(FATAL_ERROR "Project 'open_manipulator_teleop' specifies '${idir}' as an include dir, which is not found.  It does not exist in '${include}'.  ${_report}")
       endif()
     else()
-      message(FATAL_ERROR "Project 'open_manipulator_teleop' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_teleop/${idir}'.  ${_report}")
+      message(FATAL_ERROR "Project 'open_manipulator_teleop' specifies '${idir}' as an include dir, which is not found.  It does neither exist as an absolute directory nor in '/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_teleop/${idir}'.  ${_report}")
     endif()
     _list_append_unique(open_manipulator_teleop_INCLUDE_DIRS ${include})
   endforeach()
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/tamizhanban/Documents/ITR/openLLM/devel/lib;/home/tamizhanban/catkin_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib;/home/tamizhanban/catkin_ws/devel/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

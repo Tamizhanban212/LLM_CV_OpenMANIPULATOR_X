@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "".split(';') if "" != "" else []
 PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "llm_codes"
-PROJECT_SPACE_DIR = "/home/tamizhanban/Documents/ITR/openLLM/devel"
+PROJECT_SPACE_DIR = "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel"
 PROJECT_VERSION = "0.0.0"

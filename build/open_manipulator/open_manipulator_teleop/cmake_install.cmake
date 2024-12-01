@@ -1,8 +1,8 @@
-# Install script for directory: /home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_teleop
+# Install script for directory: /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_teleop
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/ITR/openLLM/install")
+  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,18 +38,18 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_teleop/catkin_generated/installspace/open_manipulator_teleop.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_teleop/catkin_generated/installspace/open_manipulator_teleop.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_teleop/cmake" TYPE FILE FILES
-    "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_teleop/catkin_generated/installspace/open_manipulator_teleopConfig.cmake"
-    "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_teleop/catkin_generated/installspace/open_manipulator_teleopConfig-version.cmake"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_teleop/catkin_generated/installspace/open_manipulator_teleopConfig.cmake"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_teleop/catkin_generated/installspace/open_manipulator_teleopConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_teleop" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_teleop/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_teleop" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_teleop/package.xml")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -59,7 +59,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_teleop/open_manipulator_teleop_keyboard"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_teleop" TYPE EXECUTABLE FILES "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/open_manipulator_teleop/open_manipulator_teleop_keyboard")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_teleop" TYPE EXECUTABLE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/open_manipulator_teleop/open_manipulator_teleop_keyboard")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_teleop/open_manipulator_teleop_keyboard" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_teleop/open_manipulator_teleop_keyboard")
     file(RPATH_CHANGE
@@ -79,7 +79,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_teleop/open_manipulator_teleop_joystick"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_teleop" TYPE EXECUTABLE FILES "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/open_manipulator_teleop/open_manipulator_teleop_joystick")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_teleop" TYPE EXECUTABLE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/open_manipulator_teleop/open_manipulator_teleop_joystick")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_teleop/open_manipulator_teleop_joystick" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_teleop/open_manipulator_teleop_joystick")
     file(RPATH_CHANGE
@@ -93,10 +93,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/open_manipulator_teleop" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_teleop/include/open_manipulator_teleop/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/open_manipulator_teleop" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_teleop/include/open_manipulator_teleop/")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_teleop" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_teleop/launch")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_teleop" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_teleop/launch")
 endif()
 

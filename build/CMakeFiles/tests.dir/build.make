@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tamizhanban/Documents/ITR/openLLM/src
+CMAKE_SOURCE_DIR = /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tamizhanban/Documents/ITR/openLLM/build
+CMAKE_BINARY_DIR = /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build
 
 # Utility rule file for tests.
 
@@ -67,6 +67,6 @@ CMakeFiles/tests.dir/clean:
 .PHONY : CMakeFiles/tests.dir/clean
 
 CMakeFiles/tests.dir/depend:
-	cd /home/tamizhanban/Documents/ITR/openLLM/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tamizhanban/Documents/ITR/openLLM/src /home/tamizhanban/Documents/ITR/openLLM/src /home/tamizhanban/Documents/ITR/openLLM/build /home/tamizhanban/Documents/ITR/openLLM/build /home/tamizhanban/Documents/ITR/openLLM/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/CMakeFiles/tests.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/tests.dir/depend
 

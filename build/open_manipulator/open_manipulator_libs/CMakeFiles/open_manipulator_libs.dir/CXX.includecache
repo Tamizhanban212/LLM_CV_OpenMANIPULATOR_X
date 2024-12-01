@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/custom_trajectory.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/custom_trajectory.h
 RobotisManipulator.h
 -
 robotis_manipulator/robotis_manipulator.h
 -
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/dynamixel.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/dynamixel.h
 RobotisManipulator.h
 -
 DynamixelWorkbench.h
@@ -22,35 +22,35 @@ robotis_manipulator/robotis_manipulator.h
 dynamixel_workbench_toolbox/dynamixel_workbench.h
 -
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/kinematics.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/kinematics.h
 RobotisManipulator.h
 -
 robotis_manipulator/robotis_manipulator.h
 -
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/open_manipulator.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/open_manipulator.h
 dynamixel.h
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/dynamixel.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/dynamixel.h
 custom_trajectory.h
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/custom_trajectory.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/custom_trajectory.h
 kinematics.h
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/kinematics.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/kinematics.h
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/src/custom_trajectory.cpp
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/src/custom_trajectory.cpp
 ../include/open_manipulator_libs/custom_trajectory.h
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/custom_trajectory.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/custom_trajectory.h
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/src/dynamixel.cpp
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/src/dynamixel.cpp
 ../include/open_manipulator_libs/dynamixel.h
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/dynamixel.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/dynamixel.h
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/src/kinematics.cpp
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/src/kinematics.cpp
 ../include/open_manipulator_libs/kinematics.h
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/kinematics.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/kinematics.h
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/src/open_manipulator.cpp
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/src/open_manipulator.cpp
 ../include/open_manipulator_libs/open_manipulator.h
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/open_manipulator.h
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/open_manipulator.h
 
 /opt/ros/noetic/include/dynamixel_sdk/dynamixel_sdk.h
 group_bulk_read.h

@@ -1,8 +1,8 @@
-# Install script for directory: /home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_controller
+# Install script for directory: /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_controller
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/ITR/openLLM/install")
+  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,18 +38,18 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_controller/catkin_generated/installspace/open_manipulator_controller.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_controller/catkin_generated/installspace/open_manipulator_controller.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_controller/cmake" TYPE FILE FILES
-    "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_controller/catkin_generated/installspace/open_manipulator_controllerConfig.cmake"
-    "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_controller/catkin_generated/installspace/open_manipulator_controllerConfig-version.cmake"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_controller/catkin_generated/installspace/open_manipulator_controllerConfig.cmake"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_controller/catkin_generated/installspace/open_manipulator_controllerConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_controller" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_controller/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_controller" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_controller/package.xml")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -59,12 +59,12 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_controller/open_manipulator_controller"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_controller" TYPE EXECUTABLE FILES "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/open_manipulator_controller/open_manipulator_controller")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_controller" TYPE EXECUTABLE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/open_manipulator_controller/open_manipulator_controller")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_controller/open_manipulator_controller" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_controller/open_manipulator_controller")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_controller/open_manipulator_controller"
-         OLD_RPATH "/home/tamizhanban/Documents/ITR/openLLM/devel/lib:/opt/ros/noetic/lib:"
+         OLD_RPATH "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib:/opt/ros/noetic/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_controller/open_manipulator_controller")
@@ -73,18 +73,18 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_controller" TYPE PROGRAM FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_controller/scripts/create_udev_rules")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_controller" TYPE PROGRAM FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_controller/scripts/create_udev_rules")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/open_manipulator_controller" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_controller/include/open_manipulator_controller/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/open_manipulator_controller" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_controller/include/open_manipulator_controller/")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_controller" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_controller/launch")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_controller" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_controller/launch")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_controller" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_controller/99-open-manipulator-cdc.rules")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_controller" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_controller/99-open-manipulator-cdc.rules")
 endif()
 

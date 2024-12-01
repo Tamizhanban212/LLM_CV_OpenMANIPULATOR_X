@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/tamizhanban/Documents/ITR/openLLM/src
+CMAKE_SOURCE_DIR = /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/tamizhanban/Documents/ITR/openLLM/build
+CMAKE_BINARY_DIR = /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build
 
 # Utility rule file for clean_test_results.
 
@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/tamizhanban/Documents/ITR/openLLM/build
 include CMakeFiles/clean_test_results.dir/progress.make
 
 CMakeFiles/clean_test_results:
-	/usr/bin/python3 /opt/ros/noetic/share/catkin/cmake/test/remove_test_results.py /home/tamizhanban/Documents/ITR/openLLM/build/test_results
+	/usr/bin/python3 /opt/ros/noetic/share/catkin/cmake/test/remove_test_results.py /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/test_results
 
 clean_test_results: CMakeFiles/clean_test_results
 clean_test_results: CMakeFiles/clean_test_results.dir/build.make
@@ -71,6 +71,6 @@ CMakeFiles/clean_test_results.dir/clean:
 .PHONY : CMakeFiles/clean_test_results.dir/clean
 
 CMakeFiles/clean_test_results.dir/depend:
-	cd /home/tamizhanban/Documents/ITR/openLLM/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tamizhanban/Documents/ITR/openLLM/src /home/tamizhanban/Documents/ITR/openLLM/src /home/tamizhanban/Documents/ITR/openLLM/build /home/tamizhanban/Documents/ITR/openLLM/build /home/tamizhanban/Documents/ITR/openLLM/build/CMakeFiles/clean_test_results.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/CMakeFiles/clean_test_results.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/clean_test_results.dir/depend
 

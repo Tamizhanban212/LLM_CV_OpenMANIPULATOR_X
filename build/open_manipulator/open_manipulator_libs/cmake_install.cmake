@@ -1,8 +1,8 @@
-# Install script for directory: /home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs
+# Install script for directory: /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/ITR/openLLM/install")
+  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,18 +38,18 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_libs/catkin_generated/installspace/open_manipulator_libs.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_libs/catkin_generated/installspace/open_manipulator_libs.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_libs/cmake" TYPE FILE FILES
-    "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_libs/catkin_generated/installspace/open_manipulator_libsConfig.cmake"
-    "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_libs/catkin_generated/installspace/open_manipulator_libsConfig-version.cmake"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_libs/catkin_generated/installspace/open_manipulator_libsConfig.cmake"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_libs/catkin_generated/installspace/open_manipulator_libsConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_libs" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_libs" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/package.xml")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -59,7 +59,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libopen_manipulator_libs.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/libopen_manipulator_libs.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" TYPE SHARED_LIBRARY FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/libopen_manipulator_libs.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libopen_manipulator_libs.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/libopen_manipulator_libs.so")
     file(RPATH_CHANGE
@@ -76,6 +76,6 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/open_manipulator_libs" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/open_manipulator_libs" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_libs/include/open_manipulator_libs/")
 endif()
 

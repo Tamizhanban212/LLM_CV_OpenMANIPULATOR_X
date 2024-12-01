@@ -1,4 +1,4 @@
-prefix=/home/tamizhanban/Documents/ITR/openLLM/install
+prefix=/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/install
 
 Name: open_manipulator_libs
 Description: Description of open_manipulator_libs

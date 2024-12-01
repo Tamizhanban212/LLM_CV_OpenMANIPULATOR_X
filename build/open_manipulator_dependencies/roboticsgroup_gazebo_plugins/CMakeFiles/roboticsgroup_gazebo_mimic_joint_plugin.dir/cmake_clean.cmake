@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/libroboticsgroup_gazebo_mimic_joint_plugin.pdb"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/libroboticsgroup_gazebo_mimic_joint_plugin.so"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/libroboticsgroup_gazebo_mimic_joint_plugin.pdb"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/libroboticsgroup_gazebo_mimic_joint_plugin.so"
   "CMakeFiles/roboticsgroup_gazebo_mimic_joint_plugin.dir/src/mimic_joint_plugin.cpp.o"
 )
 

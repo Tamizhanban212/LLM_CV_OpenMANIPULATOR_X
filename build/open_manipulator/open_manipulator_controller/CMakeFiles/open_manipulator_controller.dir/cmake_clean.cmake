@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/open_manipulator_controller/open_manipulator_controller"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/open_manipulator_controller/open_manipulator_controller.pdb"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/open_manipulator_controller/open_manipulator_controller"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/open_manipulator_controller/open_manipulator_controller.pdb"
   "CMakeFiles/open_manipulator_controller.dir/src/open_manipulator_controller.cpp.o"
 )
 

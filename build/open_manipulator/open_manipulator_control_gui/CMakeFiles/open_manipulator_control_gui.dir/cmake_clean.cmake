@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/include/open_manipulator_control_gui/ui_main_window.h"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/open_manipulator_control_gui/open_manipulator_control_gui"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/open_manipulator_control_gui/open_manipulator_control_gui.pdb"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/include/open_manipulator_control_gui/ui_main_window.h"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/open_manipulator_control_gui/open_manipulator_control_gui"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/open_manipulator_control_gui/open_manipulator_control_gui.pdb"
   "CMakeFiles/open_manipulator_control_gui.dir/include/open_manipulator_control_gui/moc_main_window.cpp.o"
   "CMakeFiles/open_manipulator_control_gui.dir/include/open_manipulator_control_gui/moc_qnode.cpp.o"
   "CMakeFiles/open_manipulator_control_gui.dir/qrc_images.cpp.o"

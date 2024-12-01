@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/libopen_manipulator_libs.pdb"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/libopen_manipulator_libs.so"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/libopen_manipulator_libs.pdb"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/libopen_manipulator_libs.so"
   "CMakeFiles/open_manipulator_libs.dir/src/custom_trajectory.cpp.o"
   "CMakeFiles/open_manipulator_libs.dir/src/dynamixel.cpp.o"
   "CMakeFiles/open_manipulator_libs.dir/src/kinematics.cpp.o"

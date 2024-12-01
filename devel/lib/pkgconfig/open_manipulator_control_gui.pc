@@ -1,8 +1,8 @@
-prefix=/home/tamizhanban/Documents/ITR/openLLM/devel
+prefix=/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel
 
 Name: open_manipulator_control_gui
 Description: Description of open_manipulator_control_gui
 Version: 2.0.2
-Cflags: -I/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_control_gui/include -I/usr/include/eigen3
+Cflags: -I/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_control_gui/include -I/usr/include/eigen3
 Libs: -L${prefix}/lib 
 Requires: roscpp std_msgs sensor_msgs open_manipulator_msgs

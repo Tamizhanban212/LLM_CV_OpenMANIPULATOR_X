@@ -1,13 +1,13 @@
 file(REMOVE_RECURSE
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/include/open_manipulator_msgs/GetJointPosition.h"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/include/open_manipulator_msgs/GetKinematicsPose.h"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/include/open_manipulator_msgs/JointPosition.h"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/include/open_manipulator_msgs/KinematicsPose.h"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/include/open_manipulator_msgs/OpenManipulatorState.h"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/include/open_manipulator_msgs/SetActuatorState.h"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/include/open_manipulator_msgs/SetDrawingTrajectory.h"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/include/open_manipulator_msgs/SetJointPosition.h"
-  "/home/tamizhanban/Documents/ITR/openLLM/devel/include/open_manipulator_msgs/SetKinematicsPose.h"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/include/open_manipulator_msgs/GetJointPosition.h"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/include/open_manipulator_msgs/GetKinematicsPose.h"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/include/open_manipulator_msgs/JointPosition.h"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/include/open_manipulator_msgs/KinematicsPose.h"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/include/open_manipulator_msgs/OpenManipulatorState.h"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/include/open_manipulator_msgs/SetActuatorState.h"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/include/open_manipulator_msgs/SetDrawingTrajectory.h"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/include/open_manipulator_msgs/SetJointPosition.h"
+  "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/include/open_manipulator_msgs/SetKinematicsPose.h"
   "CMakeFiles/open_manipulator_msgs_generate_messages_cpp"
 )
 

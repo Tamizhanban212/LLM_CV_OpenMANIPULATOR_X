@@ -7,10 +7,7 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/tamizhanban/Documents/ITR/openLLM/devel:$CMAKE_PREFIX_PATH"
-export LD_LIBRARY_PATH="/home/tamizhanban/Documents/ITR/openLLM/devel/lib:$LD_LIBRARY_PATH"
-export PKG_CONFIG_PATH="/home/tamizhanban/Documents/ITR/openLLM/devel/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PWD='/home/tamizhanban/Documents/ITR/openLLM/build'
-export PYTHONPATH="/home/tamizhanban/Documents/ITR/openLLM/devel/lib/python3/dist-packages:$PYTHONPATH"
-export ROSLISP_PACKAGE_DIRECTORIES="/home/tamizhanban/Documents/ITR/openLLM/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
-export ROS_PACKAGE_PATH="/home/tamizhanban/Documents/ITR/openLLM/src:$ROS_PACKAGE_PATH"
+export CMAKE_PREFIX_PATH="/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel:$CMAKE_PREFIX_PATH"
+export PWD='/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build'
+export ROSLISP_PACKAGE_DIRECTORIES="/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
+export ROS_PACKAGE_PATH="/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src:$ROS_PACKAGE_PATH"

@@ -1,8 +1,8 @@
-# Install script for directory: /home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_control_gui
+# Install script for directory: /home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_control_gui
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/ITR/openLLM/install")
+  set(CMAKE_INSTALL_PREFIX "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,18 +38,18 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_control_gui/catkin_generated/installspace/open_manipulator_control_gui.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_control_gui/catkin_generated/installspace/open_manipulator_control_gui.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_control_gui/cmake" TYPE FILE FILES
-    "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_control_gui/catkin_generated/installspace/open_manipulator_control_guiConfig.cmake"
-    "/home/tamizhanban/Documents/ITR/openLLM/build/open_manipulator/open_manipulator_control_gui/catkin_generated/installspace/open_manipulator_control_guiConfig-version.cmake"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_control_gui/catkin_generated/installspace/open_manipulator_control_guiConfig.cmake"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/build/open_manipulator/open_manipulator_control_gui/catkin_generated/installspace/open_manipulator_control_guiConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_control_gui" TYPE FILE FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_control_gui/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_control_gui" TYPE FILE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_control_gui/package.xml")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -59,7 +59,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_control_gui/open_manipulator_control_gui"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_control_gui" TYPE EXECUTABLE FILES "/home/tamizhanban/Documents/ITR/openLLM/devel/lib/open_manipulator_control_gui/open_manipulator_control_gui")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_control_gui" TYPE EXECUTABLE FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/devel/lib/open_manipulator_control_gui/open_manipulator_control_gui")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_control_gui/open_manipulator_control_gui" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/open_manipulator_control_gui/open_manipulator_control_gui")
     file(RPATH_CHANGE
@@ -73,14 +73,14 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/open_manipulator_control_gui" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_control_gui/include/open_manipulator_control_gui/")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/open_manipulator_control_gui" TYPE DIRECTORY FILES "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_control_gui/include/open_manipulator_control_gui/")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/open_manipulator_control_gui" TYPE DIRECTORY FILES
-    "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_control_gui/resources"
-    "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_control_gui/ui"
-    "/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator/open_manipulator_control_gui/launch"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_control_gui/resources"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_control_gui/ui"
+    "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator/open_manipulator_control_gui/launch"
     )
 endif()
 

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/tamizhanban/Documents/ITR/openLLM/src/open_manipulator_simulations/open_manipulator_gazebo/src/omx_gripper_sub_publisher.cpp
+/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/open_manipulator_simulations/open_manipulator_gazebo/src/omx_gripper_sub_publisher.cpp
 ros/ros.h
 -
 std_msgs/Float64.h
