@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+# !/usr/bin/env python3
 import rospy
 from open_manipulator_msgs.srv import SetKinematicsPose, SetKinematicsPoseRequest, SetJointPosition, SetJointPositionRequest
 from geometry_msgs.msg import Pose, Point, Quaternion
@@ -58,16 +58,16 @@ def generate_poses(from_position, to_position):
     x_from, y_from = from_position
     x_to, y_to = to_position
     return [
-        ((0.1, 0.0, 0.25), "open", 0.2),   # Move to initial hover position
-        ((x_from, y_from, 0.15), "open", 0.2),  # Move above the 'from' position
-        ((x_from, y_from, 0.06), "open", 0.2),  # Move to the 'from' position
-        ((x_from, y_from, 0.06), "close", 0.2), # Close gripper at 'from'
-        ((x_from, y_from, 0.12), "close", 0.2), # Lift from the 'from' position
-        ((x_to, y_to, 0.15), "close", 0.2),     # Move above the 'to' position
-        ((x_to, y_to, 0.07), "close", 0.2),     # Move to the 'to' position
-        ((x_to, y_to, 0.07), "open", 0.2),      # Open gripper at 'to'
-        ((x_to, y_to, 0.15), "open", 0.2),      # Lift from the 'to' position
-        ((0.1, 0.0, 0.25), "open", 0.2),   # Return to hover position
+        ((0.1, 0.0, 0.25), "open", 1),   # Move to initial hover position
+        ((x_from, y_from, 0.15), "open", 1),  # Move above the 'from' position
+        ((x_from, y_from, 0.06), "open", 1),  # Move to the 'from' position
+        ((x_from, y_from, 0.06), "close", 1), # Close gripper at 'from'
+        ((x_from, y_from, 0.12), "close", 1), # Lift from the 'from' position
+        ((x_to, y_to, 0.15), "close", 1),     # Move above the 'to' position
+        ((x_to, y_to, 0.07), "close", 1),     # Move to the 'to' position
+        ((x_to, y_to, 0.07), "open", 1),      # Open gripper at 'to'
+        ((x_to, y_to, 0.15), "open", 1),      # Lift from the 'to' position
+        ((0.1, 0.0, 0.25), "open", 1),   # Return to hover position
     ]
 
 if __name__ == "__main__":
@@ -123,6 +123,6 @@ if __name__ == "__main__":
 # if __name__ == "__main__":
 #     rospy.sleep(2)
 #     joint_positions = [
-#         ([0, -45, 35, 0], "open", 0.2),
+#         ([0, 0, 0, 0], "close", 1),
 #     ]
 #     send_joint_positions(joint_positions)
