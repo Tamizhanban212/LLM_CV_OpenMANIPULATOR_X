@@ -5,7 +5,7 @@ from transformers import AutoProcessor, AutoModelForZeroShotObjectDetection
 
 # Load the Grounding DINO model and processor
 model_id = "IDEA-Research/grounding-dino-tiny"  # Regular model
-device = "cpu"  # Change to "cuda" if you have a GPU
+device = "cuda"  # Change to "cuda" if you have a GPU
 processor = AutoProcessor.from_pretrained(model_id)
 model = AutoModelForZeroShotObjectDetection.from_pretrained(model_id).to(device)
 
@@ -100,7 +100,7 @@ def process_frame(frame, text):
 
 def main():
     # Open the webcam
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(4)
     if not cap.isOpened():
         print("Error: Unable to access the webcam.")
         return

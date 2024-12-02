@@ -12,7 +12,7 @@ llm_tokenizer = AutoTokenizer.from_pretrained(llm_model_name)
 
 
 # Device configuration
-device = "cpu"  # Change to "cuda" if you have a GPU
+device = "cuda"  # Change to "cuda" if you have a GPU
 llm_model.to(device)
 
 
@@ -54,7 +54,7 @@ def analyze_instruction(instruction):
 
 def main():
     
-    instruction = "Place the black marker on top of the green marker."
+    instruction = "Place the black marker on top of the green marker. Find the first and the second object."
     print(f"Instruction: {instruction}")
 
     # Analyze the instruction using LLM

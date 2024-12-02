@@ -3,14 +3,18 @@ from PIL import Image
 import torch
 from transformers import AutoProcessor, AutoModelForVision2Seq
 
-# Load the model and processor
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model_name = "llava-hf/llava-1.5-7b-hf"
 processor = AutoProcessor.from_pretrained(model_name)
+# Load the model with GPU support
 model = AutoModelForVision2Seq.from_pretrained(
     model_name,
-    torch_dtype=torch.float16,
-    device_map="auto"
-)
+    torch_dtype=torch.float16 if device.type == "cuda" else torch.float32,
+    device_map="auto" if device.type == "cuda" else None
+).to(device)
+
+print(f"Model loaded on: {device}")
 
 def get_webcam_image():
     """
