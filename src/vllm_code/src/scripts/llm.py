@@ -33,17 +33,26 @@ def analyze_instruction(instruction):
     return response
 
 def main():
-    instruction = "\"Place the red marker on top of the my hand.\" Give all the objects and its properties in the sentence separated by commas in the correct order of appearance in the sentence. Dont give me the action words."
+    speech_text = "Place the spanner inside the box."
+    instruction = f"\"{speech_text}\" Give me only the objects mentioned in the previous sentence separated by commas."
     print(f"\nInstruction: {instruction}")
 
     # Analyze the instruction using LLM
     response = analyze_instruction(instruction)
-    response = response.split(",")
-    response = [r.strip() for r in response]
+    response_list = response.split(",")
+    response_list = [r.strip() for r in response_list]
+
+    # Remove repetitions
+    response_list = list(dict.fromkeys(response_list))
+
+    # Order response_list according to the object order in speech_text
+    ordered_response_list = sorted(response_list, key=lambda x: speech_text.find(x))
+
     dino_string = ""
-    for r in response:
+    for r in ordered_response_list:
         dino_string += "a " + r + ". "
     dino_string = dino_string.strip()
+
     print(f"\nLLM Response: {dino_string}")
 
 if __name__ == "__main__":
