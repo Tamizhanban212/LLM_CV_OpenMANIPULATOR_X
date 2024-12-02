@@ -53,7 +53,6 @@ def analyze_instruction(instruction):
     
     return objects_to_detect
 
-/home/aarav/LLM_CV_OpenMANIPULATOR_X/src/vllm_code/src/scripts/llm_grnd_integ.py
 def process_frame(frame, text):
     """
     Detects the object described by `text` in the given frame, and returns the updated frame
