@@ -162,11 +162,26 @@ def main():
             frame, centroid = process_frame(frame, obj)
             positions[obj] = centroid
 
+        # Display results on the frame
         for obj, centroid in positions.items():
             if centroid:
                 print(f"{obj.capitalize()} detected at {centroid}")
             else:
                 print(f"{obj.capitalize()} not detected.")
+
+        # Prepare feedback prompt for the LLM
+        if all(positions[obj] is not None for obj in objects_to_find):
+            centroid_feedback = ". ".join([f"{obj.capitalize()} detected at {positions[obj]}" for obj in objects_to_find]) + "."
+            print(f"Feedback to LLM: {centroid_feedback}")
+
+            # Feed feedback back to LLM
+            input_ids = llm_tokenizer.encode(centroid_feedback, return_tensors="pt").to(device)
+            with torch.no_grad():
+                output_ids = llm_model.generate(input_ids, max_new_tokens=50)
+
+            # Decode the LLM response
+            llm_response = llm_tokenizer.decode(output_ids[0], skip_special_tokens=True)
+            print(f"LLM Response: {llm_response}")
 
         cv2.imshow("Real-Time Object Detection and LLM Execution", frame)
 
@@ -175,6 +190,7 @@ def main():
 
     cap.release()
     cv2.destroyAllWindows()
+
 
 
 if __name__ == "__main__":
