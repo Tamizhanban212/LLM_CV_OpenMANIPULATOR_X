@@ -100,11 +100,15 @@ def main():
 
         frame_count += 1
 
-        # Save the frame for processing
-        if frame_count == frame_end:
+        # Skip frames before the start frame
+        if frame_count < frame_start:
+            continue
+
+        # Process and save the frame between frame_start and frame_end
+        if frame_start <= frame_count <= frame_end:
             selected_frame = frame
 
-        # Break the loop after the end frame
+        # Stop processing after frame_end
         if frame_count > frame_end:
             break
 
