@@ -1,7 +1,14 @@
 import cv2
 import torch
+import os
 from PIL import Image
 from transformers import AutoProcessor, AutoModelForZeroShotObjectDetection
+
+os.environ["PYTHONWARNINGS"] = "ignore"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # Suppress TensorFlow INFO/WARNING messages
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 # Load the Grounding DINO model and processor
 model_id = "IDEA-Research/grounding-dino-tiny"  # Use the regular model
@@ -78,14 +85,14 @@ def process_frame(frame, text):
 
 def main():
     # Open the webcam
-    cap = cv2.VideoCapture(4)  # Adjust index if multiple webcams are connected
+    cap = cv2.VideoCapture(0)  # Adjust index if multiple webcams are connected
     if not cap.isOpened():
         print("Error: Unable to access the webcam.")
         return
 
     text = "a spanner. a box."  # Objects to detect
     frame_start = 5  # Start processing from the 5th frame
-    frame_end = 15  # Stop after processing the 15th frame
+    frame_end = 10  # Stop after processing the 15th frame
     frame_count = 0
 
     print("Capturing selected frames...")
