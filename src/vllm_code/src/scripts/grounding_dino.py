@@ -83,7 +83,7 @@ def main():
         print("Error: Unable to access the webcam.")
         return
 
-    text = "a green marker. a black marker."  # Objects to detect
+    text = "a spanner. a box."  # Objects to detect
     frame_start = 5  # Start processing from the 5th frame
     frame_end = 15  # Stop after processing the 15th frame
     frame_count = 0
