@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import efficient_IK as ik
 import rospy
 
@@ -16,14 +17,14 @@ def pick_and_place(xfrom, yfrom, xto, yto):
     
     # Generate the movement sequence
     movements = [
-        (0, 0.15, 0.07, -80, 1.5, "open"),
-        (xfrom, yfrom, 0.07, -80, 1.5, "open"),
-        (xfrom, yfrom, 0.0, -80, 1.5, "close"),
-        (xfrom, yfrom, 0.07, -80, 1.5, "close"),
-        (xto, yto, 0.07, -80, 1.5, "close"),
-        (xto, yto, 0.0, -80, 1.5, "open"),
-        (xto, yto, 0.07, -80, 1.5, "open"),
-        (0, 0.15, 0.07, -80, 1.5, "open"),
+        (0, 0.15, 0.07, -80, 1, "open"),
+        (xfrom, yfrom, 0.07, -80, 1, "open"),
+        (xfrom, yfrom, 0.0, -80, 1, "close"),
+        (xfrom, yfrom, 0.07, -80, 1, "close"),
+        (xto, yto, 0.07, -80, 1, "close"),
+        (xto, yto, 0.0, -80, 1, "open"),
+        (xto, yto, 0.07, -80, 1, "open"),
+        (0, 0.15, 0.07, -80, 1, "open"),
     ]
     
     # Perform the movements
@@ -44,8 +45,8 @@ if __name__ == "__main__":
     rospy.init_node('joint_control_node', anonymous=True)
     
     # Example pick-and-place coordinates
-    xfrom, yfrom = 0.1, 0.2  # Pick position
-    xto, yto = 0.3, 0.4      # Place position
+    xfrom, yfrom = 0.1, 0.1  # Pick position
+    xto, yto = 0.1, -0.1      # Place position
     
     # Execute the pick-and-place task
     pick_and_place(xfrom, yfrom, xto, yto)
