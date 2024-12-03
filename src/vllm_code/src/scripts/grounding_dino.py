@@ -86,11 +86,18 @@ def process_frame(frame, text):
 def main():
     # Open the webcam
     cap = cv2.VideoCapture(0)  # Adjust index if multiple webcams are connected
+
     if not cap.isOpened():
         print("Error: Unable to access the webcam.")
         return
 
-    text = "a spanner. a box."  # Objects to detect
+    # Set the desired frame size
+    frame_width = 640  # Change to desired width
+    frame_height = 480  # Change to desired height
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
+
+    text = "a spanner. a black marker."  # Objects to detect
     frame_start = 5  # Start processing from the 5th frame
     frame_end = 10  # Stop after processing the 15th frame
     frame_count = 0

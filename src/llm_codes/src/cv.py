@@ -107,11 +107,11 @@ def get_most_common_color(frame, contour_or_mask):
     return most_common_color
 
 # Access camera
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 # Set resolution of the camera frame
-frame_width = 720
-frame_height = 720
+frame_width = 640
+frame_height = 480
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
 
