@@ -130,9 +130,9 @@ def detect_objects_with_display(text, frame_start=5, frame_end=10):
 
 # Example usage:
 if __name__ == "__main__":
-    object_description = "a coil. a tape."
+    dino_string = "a coil. a tape."
     try:
-        detected_centroids = detect_objects_with_display(object_description)
+        detected_centroids = detect_objects_with_display(dino_string)
         print("Detected centroids:", detected_centroids)
     except Exception as e:
         print(str(e))

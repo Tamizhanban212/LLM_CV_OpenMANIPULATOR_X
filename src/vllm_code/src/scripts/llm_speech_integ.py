@@ -43,58 +43,73 @@ def analyze_instruction(speech_text):
         print(f"Error during LLM inference: {e}")
         return "Error processing instruction."
 
-def get_speech_text():
+def process_speech_text(speech_text):
     """
-    Captures speech input and converts it to text using SpeechRecognition library.
+    Processes the given speech text and generates a 'dino_string'.
+
+    Args:
+        speech_text: Input speech text.
 
     Returns:
-        Transcribed speech text.
+        Dino string (a list of objects in speech_text) or None if a termination keyword is found.
     """
-    recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("Listening... Please speak your instruction.")
-        try:
-            audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
-            speech_text = recognizer.recognize_google(audio)
-            print(f"Recognized Speech: {speech_text}")
-            return speech_text
-        except sr.WaitTimeoutError:
-            print("Listening timed out. Please try again.")
-        except sr.UnknownValueError:
-            print("Could not understand the audio. Please try again.")
-        except sr.RequestError as e:
-            print(f"Error with speech recognition service: {e}")
+    stop_keywords = ["stop", "enough", "terminate", "end"]
+    
+    # Check for stop keywords in the input speech text
+    if any(keyword in speech_text.lower() for keyword in stop_keywords):
+        print("Termination keyword detected in speech_text. Exiting.")
         return None
 
+    # Analyze the instruction using the LLM
+    response = analyze_instruction(speech_text)
+    if "Error" in response:
+        print("Failed to process instruction.")
+        return None
+
+    # Process the LLM response
+    response_list = response.split(",")
+    response_list = [r.strip() for r in response_list]
+
+    # Remove repetitions
+    response_list = list(dict.fromkeys(response_list))
+
+    # Order response_list according to the object order in speech_text
+    ordered_response_list = sorted(response_list, key=lambda x: speech_text.find(x))
+
+    # Create the dino string
+    dino_string = " ".join(f"a {r}." for r in ordered_response_list).strip()
+
+    # Check for stop keywords in the dino string
+    if any(keyword in dino_string.lower() for keyword in stop_keywords):
+        print("Termination keyword detected in dino_string. Exiting.")
+        return None
+
+    return dino_string
+
 def main():
+    recognizer = sr.Recognizer()
     while True:
-        speech_text = get_speech_text()
-        if not speech_text:
-            continue  # Retry if no valid speech text is obtained
-        
-        # Check for stop keywords
-        if any(keyword in speech_text.lower() for keyword in ["stop", "enough", "terminate", "end"]):
-            print("Termination keyword detected. Exiting.")
+        # Get speech input
+        with sr.Microphone() as source:
+            print("Listening... Please speak your instruction.")
+            try:
+                audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
+                speech_text = recognizer.recognize_google(audio)
+                print(f"Recognized Speech: {speech_text}")
+            except sr.WaitTimeoutError:
+                print("Listening timed out. Please try again.")
+                continue
+            except sr.UnknownValueError:
+                print("Could not understand the audio. Please try again.")
+                continue
+            except sr.RequestError as e:
+                print(f"Error with speech recognition service: {e}")
+                continue
+
+        # Process the speech text
+        dino_string = process_speech_text(speech_text)
+        if dino_string is None:  # Stop if termination keywords are found
             break
-
-        print(f"\nInstruction: {speech_text}")
-
-        # Analyze the instruction using LLM
-        response = analyze_instruction(speech_text)
-        if "Error" in response:
-            print("Failed to process instruction. Please try again.")
-            continue
-
-        response_list = response.split(",")
-        response_list = [r.strip() for r in response_list]
-
-        # Remove repetitions
-        response_list = list(dict.fromkeys(response_list))
-
-        # Order response_list according to the object order in speech_text
-        ordered_response_list = sorted(response_list, key=lambda x: speech_text.find(x))
-
-        dino_string = " ".join(f"a {r}." for r in ordered_response_list).strip()
 
         print(f"\nLLM Response: {dino_string}")
 
