@@ -1,41 +1,47 @@
-import torch
-from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 import os
 import speech_recognition as sr  # For speech recognition
+from openai import OpenAI
 
+# Suppress warnings and logs for a cleaner console
 os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # Suppress TensorFlow INFO/WARNING messages
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+# Initialize the OpenAI client
+client = OpenAI(
+    base_url="https://api-inference.huggingface.co/v1/",
+    api_key="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"  # Replace with your actual Hugging Face API key
+)
 
-# Load a small LLM for text analysis
-llm_model_name = "google/flan-t5-base"  # Replace with other suitable LLM models
-llm_model = AutoModelForSeq2SeqLM.from_pretrained(llm_model_name)
-llm_tokenizer = AutoTokenizer.from_pretrained(llm_model_name)
-
-# Device configuration
-device = "cuda" if torch.cuda.is_available() else "cpu"
-llm_model.to(device)
-
-def analyze_instruction(instruction):
+def analyze_instruction(speech_text):
     """
-    Uses a small LLM to analyze the instruction and generate a response.
+    Uses the OpenAI API to analyze the instruction and generate a response.
 
     Args:
-        instruction: Natural language instruction.
+        speech_text: Natural language instruction.
 
     Returns:
         Response from the LLM.
     """
-    # Tokenize and generate response
-    input_ids = llm_tokenizer.encode(instruction, return_tensors="pt").to(device)
-    with torch.no_grad():
-        output_ids = llm_model.generate(input_ids, max_new_tokens=50)
-
-    # Decode the output
-    response = llm_tokenizer.decode(output_ids[0], skip_special_tokens=True)
-    return response
+    messages = [
+        {
+            "role": "user",
+            "content": f"\"{speech_text}\". Give me only the objects and its properties mentioned in the previous sentence in correct order of appearance, separated by commas."
+        }
+    ]
+    
+    try:
+        completion = client.chat.completions.create(
+            model="Qwen/Qwen2.5-72B-Instruct", 
+            messages=messages, 
+            max_tokens=500
+        )
+        
+        output_content = completion.choices[0].message.content
+        return output_content
+    except Exception as e:
+        print(f"Error during LLM inference: {e}")
+        return "Error processing instruction."
 
 def get_speech_text():
     """
@@ -54,13 +60,11 @@ def get_speech_text():
             return speech_text
         except sr.WaitTimeoutError:
             print("Listening timed out. Please try again.")
-            return None
         except sr.UnknownValueError:
             print("Could not understand the audio. Please try again.")
-            return None
         except sr.RequestError as e:
             print(f"Error with speech recognition service: {e}")
-            return None
+        return None
 
 def main():
     while True:
@@ -73,11 +77,14 @@ def main():
             print("Termination keyword detected. Exiting.")
             break
 
-        instruction = f"\"{speech_text}\". Give me only the objects mentioned in the previous sentence separated by commas."
-        print(f"\nInstruction: {instruction}")
+        print(f"\nInstruction: {speech_text}")
 
         # Analyze the instruction using LLM
-        response = analyze_instruction(instruction)
+        response = analyze_instruction(speech_text)
+        if "Error" in response:
+            print("Failed to process instruction. Please try again.")
+            continue
+
         response_list = response.split(",")
         response_list = [r.strip() for r in response_list]
 
@@ -87,10 +94,7 @@ def main():
         # Order response_list according to the object order in speech_text
         ordered_response_list = sorted(response_list, key=lambda x: speech_text.find(x))
 
-        dino_string = ""
-        for r in ordered_response_list:
-            dino_string += "a " + r + ". "
-        dino_string = dino_string.strip()
+        dino_string = " ".join(f"a {r}." for r in ordered_response_list).strip()
 
         print(f"\nLLM Response: {dino_string}")
 
