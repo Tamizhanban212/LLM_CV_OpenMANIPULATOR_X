@@ -1,5 +1,7 @@
 import speech_recognition as sr
 import llm_grnd_integ as llm
+import efficient_IK as ik
+import pick_place as pp
 
 def main():
     recognizer = sr.Recognizer()
