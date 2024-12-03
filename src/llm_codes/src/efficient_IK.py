@@ -9,7 +9,7 @@ def ikinematics_3R(positionx, positiony, positionz, gamma, link1=0.13, link2=0.1
     L23 = link2
     L34 = link3
     xe = (positionx**2 + positiony**2)**0.5 - 0.025
-    ye = positionz - 0.05
+    ye = positionz - 0.04
     g = np.radians(gamma)
 
     x3 = xe - L34 * np.cos(g)
@@ -55,7 +55,7 @@ def control_joint(joint_names, positions, gripper_pos, path_t):
         rospy.logerr("Service call failed: %s", e)
 
 def transform_pixels(x,y):
-    ym = (x - 412)*0.000625
+    ym = (x - 427)*0.000625
     xm = (y - 40)*0.000625
     return xm, ym
 
