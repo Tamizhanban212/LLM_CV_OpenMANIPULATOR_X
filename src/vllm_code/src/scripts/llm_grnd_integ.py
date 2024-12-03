@@ -137,7 +137,7 @@ def detect_objects_with_display(text, frame_start=5, frame_end=10):
                 )
         return centroids, frame
 
-    cap = cv2.VideoCapture(4)
+    cap = cv2.VideoCapture(0)
     if not cap.isOpened():
         raise RuntimeError("Error: Unable to access the webcam.")
 
