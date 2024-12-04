@@ -56,7 +56,6 @@ def main():
             print("Detected centroids:", detected_centroids)
             pp.pick_and_place(xfrom, yfrom, xto, yto)
             print(xfrom, yfrom, xto, yto)
-            rospy.sleep(1)
         except Exception as e:
             print(f"Error during object detection: {e}")
 
