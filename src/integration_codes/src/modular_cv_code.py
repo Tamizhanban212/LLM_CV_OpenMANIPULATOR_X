@@ -5,6 +5,7 @@ from transformers import OwlViTProcessor, OwlViTForObjectDetection, OmDetTurboFo
 import os
 from PIL import Image
 from openai import OpenAI
+import time
 
 # Suppress warnings and logs
 os.environ["PYTHONWARNINGS"] = "ignore"
@@ -81,7 +82,7 @@ def detect_and_return_centroids(
 ):
 
     if model_id == 1:
-        model_id = "IDEA-Research/grounding-dino-base"
+        model_id = "IDEA-Research/grounding-dino-tiny"
     elif model_id == 2:
         model_id = "omlab/omdet-turbo-swin-tiny-hf"
     elif model_id == 3:
@@ -92,7 +93,7 @@ def detect_and_return_centroids(
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # Load model and processor
-    if model_id == "IDEA-Research/grounding-dino-base":
+    if model_id == "IDEA-Research/grounding-dino-tiny":
         processor = AutoProcessor.from_pretrained(model_id)
         model = AutoModelForZeroShotObjectDetection.from_pretrained(model_id).to(device)
     elif model_id == "omlab/omdet-turbo-swin-tiny-hf":
@@ -115,7 +116,7 @@ def detect_and_return_centroids(
     bounding_boxes = []
     frame_count = 0
 
-    if model_id == "IDEA-Research/grounding-dino-base":
+    if model_id == "IDEA-Research/grounding-dino-tiny":
         try:
             while frame_count < num_frames:
                 ret, frame = cap.read()
@@ -391,14 +392,23 @@ def detect_and_return_centroids(
             cap.release()
             cv2.destroyAllWindows()
 
-def list_available_models():
+def get_available_models():
     """
     Lists the available object detection models.
     """
     print("Available Object Detection Models:")
-    print("1. IDEA-Research/grounding-dino-base")
+    print("1. IDEA-Research/grounding-dino-tiny")
     print("2. omlab/omdet-turbo-swin-tiny-hf")
     print("3. google/owlv2-base-patch16-ensemble")
     print("4. google/owlvit-base-patch32")
 
     return int(input("Enter the model ID to use: "))
+
+def main():
+    object_text = "a blue colored object."
+    model_id = get_available_models()
+    centroid = detect_and_return_centroids(object_text, model_id=model_id)
+    print(f"Detected centroid for '{object_text}': {centroid}")
+
+if __name__ == "__main__":
+    main()
