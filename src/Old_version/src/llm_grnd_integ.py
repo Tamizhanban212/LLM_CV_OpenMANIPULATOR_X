@@ -18,7 +18,7 @@ client = OpenAI(
 )
 
 # Load the Grounding Dino model and processor
-model_id = "IDEA-Research/grounding-dino-tiny"
+model_id = "IDEA-Research/grounding-dino-base"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 processor = AutoProcessor.from_pretrained(model_id)
 model = AutoModelForZeroShotObjectDetection.from_pretrained(model_id).to(device)
@@ -142,7 +142,7 @@ def detect_objects_with_display(ordered_list, frame_start=10, frame_end=20):
         return centroids, frame_copy
 
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
     if not cap.isOpened():
         raise RuntimeError("Error: Unable to access the webcam.")
 
