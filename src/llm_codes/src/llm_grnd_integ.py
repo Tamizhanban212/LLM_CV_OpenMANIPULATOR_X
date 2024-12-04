@@ -193,35 +193,19 @@ def detect_objects_with_display(ordered_list, frame_start=10, frame_end=20):
 
 
 def main():
-    recognizer = sr.Recognizer()
-    while True:
-        with sr.Microphone() as source:
-            print("Listening... Please speak your instruction.")
-            try:
-                audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
-                speech_text = recognizer.recognize_google(audio)
-                print(f"Recognized Speech: {speech_text}")
-            except sr.WaitTimeoutError:
-                print("Listening timed out. Please try again.")
-                continue
-            except sr.UnknownValueError:
-                print("Could not understand the audio. Please try again.")
-                continue
-            except sr.RequestError as e:
-                print(f"Error with speech recognition service: {e}")
-                continue
+    speech_text = "look at the cylinderical coil"
+    ordered_list = process_speech_text(speech_text)
 
-        ordered_list = process_speech_text(speech_text)
+    if ordered_list is None:
+        print("Terminating program.")
+        return
 
-        if ordered_list is None:
-            break
-
-        print(f"\nProcessed LLM Response: {ordered_list}")
-        try:
-            detected_centroids = detect_objects_with_display(ordered_list)
-            print("Detected centroids:", detected_centroids)
-        except Exception as e:
-            print(str(e))
+    print(f"\nProcessed LLM Response: {ordered_list}")
+    try:
+        detected_centroids = detect_objects_with_display(ordered_list)
+        print("Detected centroids:", detected_centroids)
+    except Exception as e:
+        print(str(e))
 
 if __name__ == "__main__":
     main()
