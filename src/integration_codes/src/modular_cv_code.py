@@ -2,16 +2,92 @@ import cv2
 import torch
 from PIL import Image
 from transformers import OwlViTProcessor, OwlViTForObjectDetection, OmDetTurboForObjectDetection, AutoProcessor, AutoModelForZeroShotObjectDetection, Owlv2Processor, Owlv2ForObjectDetection
-import time
+import os
+from PIL import Image
+from openai import OpenAI
 
+# Suppress warnings and logs
+os.environ["PYTHONWARNINGS"] = "ignore"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+
+# Initialize OpenAI client
+client = OpenAI(
+    base_url="https://api-inference.huggingface.co/v1/",
+    api_key="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"  # Replace with your actual Hugging Face API key
+)
+
+def analyze_instruction(speech_text):
+    """
+    Uses the OpenAI API to analyze the instruction and generate a response.
+
+    Args:
+        speech_text: Natural language instruction.
+
+    Returns:
+        Response from the LLM.
+    """
+    messages = [
+        {
+            "role": "user",
+            "content": f"\"{speech_text}\". Give me only the objects and their properties mentioned in the previous sentence in correct order of appearance, separated by commas. Don't mention any action or positions."
+        }
+    ]
+    try:
+        completion = client.chat.completions.create(
+            model="Qwen/Qwen2.5-72B-Instruct", 
+            messages=messages, 
+            max_tokens=500
+        )
+        output_content = completion.choices[0].message.content
+        return output_content
+    except Exception as e:
+        print(f"Error during LLM inference: {e}")
+        return "Error processing instruction."
+
+def process_speech_text(speech_text):
+    """
+    Processes the given speech text and generates a 'dino_string'.
+
+    Args:
+        speech_text: Input speech text.
+
+    Returns:
+        Dino string (a list of objects in speech_text) or None if a termination keyword is found.
+    """
+    stop_keywords = ["stop", "shut", "close", "shutdown", "off", "enough", "terminate", "end"]
+    
+    if any(keyword in speech_text.lower() for keyword in stop_keywords):
+        print("Termination keyword detected in speech_text. Exiting.")
+        return None
+
+    response = analyze_instruction(speech_text)
+    if "Error" in response:
+        print("Failed to process instruction.")
+        return None
+
+    response_list = response.split(",")
+    response_list = [r.strip() for r in response_list]
+    response_list = list(dict.fromkeys(response_list))
+    ordered_response_list = sorted(response_list, key=lambda x: speech_text.find(x))
+
+    return ordered_response_list
 
 def detect_and_return_centroids(
     object_text,
     num_frames=2,
-    delay=3,
     camera_index=2,
     model_id=4
 ):
+
+    if model_id == 1:
+        model_id = "IDEA-Research/grounding-dino-base"
+    elif model_id == 2:
+        model_id = "omlab/omdet-turbo-swin-tiny-hf"
+    elif model_id == 3:
+        model_id = "google/owlv2-base-patch16-ensemble"
+    elif model_id == 4:
+        model_id = "google/owlvit-base-patch32"
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -314,24 +390,15 @@ def detect_and_return_centroids(
             # Release resources
             cap.release()
             cv2.destroyAllWindows()
-    
-# Example usage
-model_id = 4  # Replace with desired model ID
 
-if model_id == 1:
-    model_id = "IDEA-Research/grounding-dino-base"
-elif model_id == 2:
-    model_id = "omlab/omdet-turbo-swin-tiny-hf"
-elif model_id == 3:
-    model_id = "google/owlv2-base-patch16-ensemble"
-elif model_id == 4:
-    model_id = "google/owlvit-base-patch32"
+def list_available_models():
+    """
+    Lists the available object detection models.
+    """
+    print("Available Object Detection Models:")
+    print("1. IDEA-Research/grounding-dino-base")
+    print("2. omlab/omdet-turbo-swin-tiny-hf")
+    print("3. google/owlv2-base-patch16-ensemble")
+    print("4. google/owlvit-base-patch32")
 
-object_text = "a cardboard box"
-
-average_centroid = detect_and_return_centroids(object_text, camera_index=2, model_id=model_id)
-
-if average_centroid:
-    print(f"Detected object's average centroid: {average_centroid}")
-else:
-    print("No object detected.")
+    return int(input("Enter the model ID to use: "))
