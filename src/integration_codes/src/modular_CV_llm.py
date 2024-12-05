@@ -444,11 +444,3 @@ def get_available_models():
         print(f"Model ID: {model_id}, Model Name: {model_name}")
     
     return int(input("Enter the model ID to use: "))
-
-model_id = 4
-
-centroid, confidence, processing_time, processed_frame = detect_objects(model_id, "a white circular object.", 30, 2)
-print(f"Centroid: {centroid}, Confidence: {confidence}, Processing Time: {processing_time}")
-
-centroid, confidence, processing_time, processed_frame = detect_objects(model_id, "a cardboard box.", 30, 2)
-print(f"Centroid: {centroid}, Confidence: {confidence}, Processing Time: {processing_time}")
