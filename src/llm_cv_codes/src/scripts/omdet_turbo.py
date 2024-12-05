@@ -32,7 +32,8 @@ def detect_objects_omdet(model_id, object_text, frame_end=20, camera_index=2):
     def process_frame(frame, text):
         frame_copy = frame.copy()
         original_height, original_width = frame_copy.shape[:2]
-        image = Image.fromarray(frame_copy)
+        frame_rgb = cv2.cvtColor(frame_copy, cv2.COLOR_BGR2RGB)        
+        image = Image.fromarray(frame_rgb)
 
         inputs = processor(images=image, text=[text], return_tensors="pt")
         inputs = {key: value.to(device) for key, value in inputs.items()}
