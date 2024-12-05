@@ -1,94 +1,87 @@
+import os
 import cv2
 import torch
-import os
+import time
 from PIL import Image
 from transformers import AutoProcessor, AutoModelForZeroShotObjectDetection
 
+# Suppress warnings and logs
 os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # Suppress TensorFlow INFO/WARNING messages
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
-
-# Load the Grounding DINO model and processor
-model_id = "IDEA-Research/grounding-dino-tiny"  # Use the regular model
-device = "cuda" if torch.cuda.is_available() else "cpu"  # Use GPU if available
-processor = AutoProcessor.from_pretrained(model_id)
-model = AutoModelForZeroShotObjectDetection.from_pretrained(model_id).to(device)
-
-
-def detect_objects_with_display(text, frame_start=5, frame_end=10):
+def detect_objects_with_display(model_id, text, frame_end=20):
     """
-    Detect objects described by the input text from a webcam stream, display bounding boxes
-    and centroids for 2 seconds, and return the centroids.
+    Detect objects described by the input text (one at a time) from a webcam stream,
+    display bounding boxes and centroids for 2 seconds, and return the centroids.
 
     Args:
-        text: The description of objects to detect (e.g., "a spanner. a black marker.").
-        frame_start: The frame number to start processing from.
+        model_id: The model ID for Grounding DINO Tiny.
+        text: The description of the object to detect (e.g., "a cylindrical coil").
         frame_end: The frame number to stop processing.
 
     Returns:
-        centroids: A list of centroids [(x1, y1), (x2, y2), ...] for all detected objects.
+        Tuple containing centroid [x, y], confidence level, and processing time in seconds.
     """
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    processor = AutoProcessor.from_pretrained(model_id)
+    model = AutoModelForZeroShotObjectDetection.from_pretrained(model_id).to(device)
+
     def process_frame(frame, text):
-        original_height, original_width = frame.shape[:2]
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        image = Image.fromarray(frame_rgb)
+        frame_copy = frame.copy()
+        original_height, original_width = frame_copy.shape[:2]
+        image = Image.fromarray(frame_copy)
 
-        # Process inputs
         inputs = processor(images=image, text=text, return_tensors="pt")
-        inputs = {key: value.to(device) for key, value in inputs.items()}  # Move tensors to device
+        inputs = {key: value.to(device) for key, value in inputs.items()}
 
-        # Perform object detection
+        start_time = time.time()
+
         with torch.no_grad():
             outputs = model(**inputs)
 
-        # Post-process the results
+        processing_time = time.time() - start_time
+
         results = processor.post_process_grounded_object_detection(
             outputs,
             inputs["input_ids"],
             box_threshold=0.5,
             text_threshold=0.4,
-            target_sizes=[(original_height, original_width)]  # Match to original frame size
+            target_sizes=[(original_height, original_width)]
         )
 
         centroids = []
+        highest_confidence_score = 0
+        highest_confidence_centroid = None
 
         if results and len(results[0]["boxes"]) > 0:
-            for box in results[0]["boxes"]:
-                x_min, y_min, x_max, y_max = map(int, box.tolist())
+            for score, box in zip(results[0]["scores"], results[0]["boxes"]):
+                if score > highest_confidence_score:
+                    x_min, y_min, x_max, y_max = map(int, box[:4])
+                    centroid_x = (x_min + x_max) // 2
+                    centroid_y = (y_min + y_max) // 2
+                    highest_confidence_centroid = [centroid_x, centroid_y]
+                    highest_confidence_score = score.item()
 
-                # Calculate the centroid
-                centroid_x = (x_min + x_max) // 2
-                centroid_y = (y_min + y_max) // 2
-                centroids.append((centroid_x, centroid_y))
+                    frame_copy = frame.copy()  # Reset frame copy to remove previous drawings
+                    cv2.rectangle(frame_copy, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+                    cv2.circle(frame_copy, (centroid_x, centroid_y), 5, (0, 0, 255), -1)
+                    cv2.putText(
+                        frame_copy,
+                        f"Centroid: ({centroid_x}, {centroid_y})",
+                        (x_min, y_max + 20),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        0.5,
+                        (255, 0, 0),
+                        1
+                    )
 
-                # Draw bounding box
-                cv2.rectangle(frame, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+        return highest_confidence_centroid, highest_confidence_score, processing_time, frame_copy
 
-                # Draw centroid
-                cv2.circle(frame, (centroid_x, centroid_y), 5, (0, 0, 255), -1)
-
-                # Display label and centroid
-                cv2.putText(
-                    frame,
-                    f"Centroid: ({centroid_x}, {centroid_y})",
-                    (x_min, y_max + 20),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.5,
-                    (255, 0, 0),
-                    1
-                )
-
-        return centroids, frame
-
-    # Open the webcam
-    cap = cv2.VideoCapture(0)
-
+    cap = cv2.VideoCapture(2)
     if not cap.isOpened():
         raise RuntimeError("Error: Unable to access the webcam.")
 
-    # Set the resolution to 720x720
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 720)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
@@ -103,36 +96,33 @@ def detect_objects_with_display(text, frame_start=5, frame_end=10):
 
         frame_count += 1
 
-        if frame_count < frame_start:
-            continue
-
-        if frame_start <= frame_count <= frame_end:
-            selected_frame = frame
-
         if frame_count > frame_end:
+            selected_frame = frame
             break
 
     cap.release()
     cv2.destroyAllWindows()
 
     if selected_frame is not None:
-        centroids, processed_frame = process_frame(selected_frame, text)
+        print(f"Processing: {text}")
+        centroid, confidence, processing_time, processed_frame = process_frame(selected_frame, text)
 
-        # Display the processed frame with bounding boxes and centroids for 2 seconds
-        cv2.imshow("Object Detection Result", processed_frame)
-        cv2.waitKey(2000)  # Display for 2 seconds
-        cv2.destroyWindow("Object Detection Result")
+        # Display result for the current object
+        cv2.imshow(f"Object Detection Result: {text}", processed_frame)
+        cv2.waitKey(2000)
+        cv2.destroyWindow(f"Object Detection Result: {text}")
 
-        return centroids
+        return centroid, confidence, processing_time
     else:
         raise RuntimeError("No frame selected for processing.")
 
-
 # Example usage:
 if __name__ == "__main__":
-    dino_string = "a coil."
     try:
-        detected_centroids = detect_objects_with_display(dino_string)
-        print("Detected centroids:", detected_centroids)
+        model_id = "IDEA-Research/grounding-dino-tiny"
+        centroid, confidence, processing_time = detect_objects_with_display(model_id, "a screwdriver.", 20)
+        print("Detected centroid:", centroid)
+        print("Confidence level:", confidence)
+        print("Processing time (seconds):", processing_time)
     except Exception as e:
         print(str(e))

@@ -1,125 +1,123 @@
+import requests
 import cv2
 import torch
+import time
 from PIL import Image
 from transformers import AutoProcessor, OmDetTurboForObjectDetection
-import time
 
-def detect_and_display_with_omdet(
-    object_text,
-    num_frames=10,
-    delay=5,
-    camera_index=0,
-    model_id="omlab/omdet-turbo-swin-tiny-hf"
-):
+def detect_objects(model_id, end_frame, camera_index, object_text):
     """
-    Detects a single object in a live video feed using OmDet-Turbo and displays bounding boxes and centroids.
+    Detect objects described by the input text from a webcam stream,
+    display the bounding box and centroid of the object with the highest confidence
+    for 2 seconds, and return the centroid, confidence level, and processing time.
 
     Args:
-        object_text (str): Text query for object detection (single object, e.g., "cardboard box").
-        num_frames (int): Number of frames to process.
-        delay (int): Delay in seconds before starting detection.
-        camera_index (int): Camera index for OpenCV video capture.
-        model_id (str): Model ID for OmDet-Turbo.
+        model_id: The model ID for OmDet Turbo.
+        end_frame: The frame number to stop processing.
+        camera_index: The index of the camera to use.
+        object_text: The description of the object to detect (e.g., "yellow screwdriver").
 
     Returns:
-        tuple: Average centroid (x, y) of detected object, or None if no object is detected.
+        Tuple containing centroid [x, y], confidence level, and processing time in seconds.
     """
-    # Load model and processor
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     processor = AutoProcessor.from_pretrained(model_id)
-    model = OmDetTurboForObjectDetection.from_pretrained(model_id)
+    model = OmDetTurboForObjectDetection.from_pretrained(model_id).to(device)
 
-    # Initialize video capture
+    def process_frame(frame, text):
+        frame_copy = frame.copy()
+        original_height, original_width = frame_copy.shape[:2]
+        image = Image.fromarray(frame_copy)
+
+        inputs = processor(images=image, text=[text], return_tensors="pt")
+        inputs = {key: value.to(device) for key, value in inputs.items()}
+
+        start_time = time.time()
+        
+        with torch.no_grad():
+            outputs = model(**inputs)
+
+        processing_time = time.time() - start_time
+
+        results = processor.post_process_grounded_object_detection(
+            outputs,
+            classes=[text],
+            target_sizes=[(original_height, original_width)],
+            score_threshold=0.3,
+            nms_threshold=0.3
+        )[0]
+
+        highest_confidence_centroid = None
+        highest_confidence_score = 0
+
+        for score, class_name, box in zip(results["scores"], results["classes"], results["boxes"]):
+            if score > highest_confidence_score:
+                box = [round(i, 1) for i in box.tolist()]
+                x_min, y_min, x_max, y_max = map(int, box[:4])
+                centroid_x = (x_min + x_max) // 2
+                centroid_y = (y_min + y_max) // 2
+                highest_confidence_centroid = [centroid_x, centroid_y]
+                highest_confidence_score = score.item()
+
+                frame_copy = frame.copy()  # Reset frame copy to remove previous drawings
+                cv2.rectangle(frame_copy, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+                cv2.circle(frame_copy, (centroid_x, centroid_y), 5, (0, 0, 255), -1)
+                cv2.putText(
+                    frame_copy,
+                    f"Centroid: ({centroid_x}, {centroid_y})",
+                    (x_min, y_max + 20),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (255, 0, 0),
+                    1
+                )
+
+        return highest_confidence_centroid, highest_confidence_score, processing_time, frame_copy
+
     cap = cv2.VideoCapture(camera_index)
     if not cap.isOpened():
-        print("Error: Could not open video capture.")
-        return None
+        raise RuntimeError("Error: Unable to access the webcam.")
 
-    print(f"Starting camera... waiting for {delay} seconds.")
-    time.sleep(delay)  # Delay before starting detection
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 720)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
-    centroids = []
-    bounding_boxes = []
     frame_count = 0
+    selected_frame = None
 
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            print("Error: Failed to capture image.")
+            break
+
+        frame_count += 1
+
+        if frame_count > end_frame:
+            selected_frame = frame
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
+    if selected_frame is not None:
+        print(f"Processing: {object_text}")
+        centroid, confidence, processing_time, processed_frame = process_frame(selected_frame, object_text)
+
+        # Display result for the current object
+        cv2.imshow(f"Object Detection Result: {object_text}", processed_frame)
+        cv2.waitKey(2000)
+        cv2.destroyWindow(f"Object Detection Result: {object_text}")
+
+        return centroid, confidence, processing_time
+    else:
+        raise RuntimeError("No frame selected for processing.")
+
+# Example usage:
+if __name__ == "__main__":
     try:
-        while frame_count < num_frames:
-            ret, frame = cap.read()
-            if not ret:
-                print("Error: Could not read frame.")
-                break
-
-            # Convert the frame to PIL Image
-            image = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-
-            # Process the frame and make predictions
-            inputs = processor(image, text=[object_text], return_tensors="pt")
-            with torch.no_grad():
-                outputs = model(**inputs)
-
-            # Post-process results
-            results = processor.post_process_grounded_object_detection(
-                outputs,
-                classes=[object_text],
-                target_sizes=[image.size[::-1]],
-                score_threshold=0.3,
-                nms_threshold=0.3,
-            )[0]
-
-            # Collect bounding boxes and centroids
-            for score, class_name, box in zip(
-                results["scores"], results["classes"], results["boxes"]
-            ):
-                x1, y1, x2, y2 = box.tolist()
-                centroid_x = (x1 + x2) / 2
-                centroid_y = (y1 + y2) / 2
-                centroids.append((centroid_x, centroid_y))
-                bounding_boxes.append((int(x1), int(y1), int(x2), int(y2)))
-                print(
-                    f"Frame {frame_count + 1}: Detected {class_name} with confidence "
-                    f"{round(score.item(), 2)} at centroid ({centroid_x:.2f}, {centroid_y:.2f})"
-                )
-
-            frame_count += 1
-
-        # Compute the average centroid
-        if centroids:
-            avg_x = sum(x for x, y in centroids) / len(centroids)
-            avg_y = sum(y for x, y in centroids) / len(centroids)
-            avg_centroid = (avg_x, avg_y)
-
-            # Display the last processed frame with bounding boxes and centroids
-            ret, frame = cap.read()
-            if ret:
-                for (x1, y1, x2, y2) in bounding_boxes:
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-                cv2.circle(frame, (int(avg_x), int(avg_y)), 5, (0, 0, 255), -1)
-                cv2.putText(
-                    frame,
-                    f"Avg Centroid: ({avg_x:.2f}, {avg_y:.2f})",
-                    (10, 30),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    0.7,
-                    (255, 255, 255),
-                    2,
-                )
-                cv2.imshow("Detected Object and Centroid", frame)
-                cv2.waitKey(2000)  # Display for 2 seconds
-
-            return avg_centroid
-        else:
-            print("No object detected.")
-            return None
-
-    finally:
-        cap.release()
-        cv2.destroyAllWindows()
-
-
-# Example usage
-object_text = "cardboard box"  # Text input for a single object
-average_centroid = detect_and_display_with_omdet(object_text, num_frames=2, delay=3, camera_index=2)
-
-if average_centroid:
-    print(f"Average centroid of detected object: {average_centroid}")
-else:
-    print("No object detected.")
+        centroid, confidence, processing_time = detect_objects("omlab/omdet-turbo-swin-tiny-hf", 50, 2, "blue circular object")
+        print("Detected centroid:", centroid)
+        print("Confidence level:", confidence)
+        print("Processing time (seconds):", processing_time)
+    except Exception as e:
+        print(str(e))
