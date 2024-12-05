@@ -55,6 +55,7 @@ def detect_objects(model_id, object_text, frame_end=20, camera_index=2):
 
         highest_confidence_centroid = None
         highest_confidence_score = 0
+        highest_confidence_box = None
 
         if results and len(results[0]["boxes"]) > 0:
             for box, score in zip(results[0]["boxes"], results[0]["scores"]):
@@ -63,25 +64,37 @@ def detect_objects(model_id, object_text, frame_end=20, camera_index=2):
                     centroid_x = (x_min + x_max) // 2
                     centroid_y = (y_min + y_max) // 2
 
-                    color = (0, 255, 0)  # Green color for regular bounding boxes
                     if score > highest_confidence_score:
                         highest_confidence_centroid = [centroid_x, centroid_y]
                         highest_confidence_score = score.item()
-                        color = (255, 0, 0)  # Blue color for the highest confidence bounding box
+                        highest_confidence_box = [x_min, y_min, x_max, y_max]
 
-                    cv2.rectangle(frame_copy, (x_min, y_min), (x_max, y_max), color, 2)
-                    cv2.circle(frame_copy, (centroid_x, centroid_y), 5, color, -1)
+                    cv2.rectangle(frame_copy, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
+                    cv2.circle(frame_copy, (centroid_x, centroid_y), 5, (0, 0, 255), -1)
                     cv2.putText(
                         frame_copy,
                         f"Centroid: ({centroid_x}, {centroid_y})",
                         (x_min, y_max + 20),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         0.5,
-                        color,
+                        (0, 255, 0),
                         1
                     )
-                else:
-                    print(f"Skipping invalid box: {box.tolist()}")
+
+            if highest_confidence_box:
+                x_min, y_min, x_max, y_max = highest_confidence_box
+                centroid_x, centroid_y = highest_confidence_centroid
+                cv2.rectangle(frame_copy, (x_min, y_min), (x_max, y_max), (255, 0, 0), 2)  # Blue color for highest confidence
+                cv2.circle(frame_copy, (centroid_x, centroid_y), 5, (255, 0, 0), -1)  # Blue color for highest confidence
+                cv2.putText(
+                    frame_copy,
+                    f"Highest Conf: ({centroid_x}, {centroid_y})",
+                    (x_min, y_max + 20),
+                    cv2.FONT_HERSHEY_SIMPLEX,
+                    0.5,
+                    (255, 0, 0),
+                    1
+                )
         else:
             print(f"No boxes detected for text: {text}")
 
@@ -129,7 +142,7 @@ def detect_objects(model_id, object_text, frame_end=20, camera_index=2):
 if __name__ == "__main__":
     try:
         model_id = "IDEA-Research/grounding-dino-tiny"
-        centroid, confidence, processing_time = detect_objects(model_id, "a blue circular object.", 20, 2)
+        centroid, confidence, processing_time = detect_objects(model_id, "a screwdriver.", 30, 2)
         print("Detected centroid:", centroid)
         print("Confidence level:", confidence)
         print("Processing time (seconds):", processing_time)
