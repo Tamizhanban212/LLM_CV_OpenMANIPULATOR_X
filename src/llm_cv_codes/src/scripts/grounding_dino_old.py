@@ -10,15 +10,17 @@ os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 
-def detect_objects_with_display(model_id, text, frame_end=20):
+def detect_objects(model_id, object_text, frame_end=20, camera_index=2):
     """
-    Detect objects described by the input text (one at a time) from a webcam stream,
-    display bounding boxes and centroids for 2 seconds, and return the centroids.
+    Detect objects described by the input text from a webcam stream,
+    display bounding boxes and centroids for 2 seconds, and return the centroid,
+    confidence, and processing time.
 
     Args:
         model_id: The model ID for Grounding DINO Tiny.
-        text: The description of the object to detect (e.g., "a cylindrical coil").
+        object_text: The description of the object to detect (e.g., "a cylindrical coil").
         frame_end: The frame number to stop processing.
+        camera_index: The index of the camera to use.
 
     Returns:
         Tuple containing centroid [x, y], confidence level, and processing time in seconds.
@@ -30,7 +32,8 @@ def detect_objects_with_display(model_id, text, frame_end=20):
     def process_frame(frame, text):
         frame_copy = frame.copy()
         original_height, original_width = frame_copy.shape[:2]
-        image = Image.fromarray(frame_copy)
+        frame_rgb = cv2.cvtColor(frame_copy, cv2.COLOR_BGR2RGB)
+        image = Image.fromarray(frame_rgb)
 
         inputs = processor(images=image, text=text, return_tensors="pt")
         inputs = {key: value.to(device) for key, value in inputs.items()}
@@ -50,35 +53,41 @@ def detect_objects_with_display(model_id, text, frame_end=20):
             target_sizes=[(original_height, original_width)]
         )
 
-        centroids = []
-        highest_confidence_score = 0
         highest_confidence_centroid = None
+        highest_confidence_score = 0
 
         if results and len(results[0]["boxes"]) > 0:
-            for score, box in zip(results[0]["scores"], results[0]["boxes"]):
-                if score > highest_confidence_score:
+            for box, score in zip(results[0]["boxes"], results[0]["scores"]):
+                if len(box) >= 4:
                     x_min, y_min, x_max, y_max = map(int, box[:4])
                     centroid_x = (x_min + x_max) // 2
                     centroid_y = (y_min + y_max) // 2
-                    highest_confidence_centroid = [centroid_x, centroid_y]
-                    highest_confidence_score = score.item()
 
-                    frame_copy = frame.copy()  # Reset frame copy to remove previous drawings
-                    cv2.rectangle(frame_copy, (x_min, y_min), (x_max, y_max), (0, 255, 0), 2)
-                    cv2.circle(frame_copy, (centroid_x, centroid_y), 5, (0, 0, 255), -1)
+                    color = (0, 255, 0)  # Green color for regular bounding boxes
+                    if score > highest_confidence_score:
+                        highest_confidence_centroid = [centroid_x, centroid_y]
+                        highest_confidence_score = score.item()
+                        color = (255, 0, 0)  # Blue color for the highest confidence bounding box
+
+                    cv2.rectangle(frame_copy, (x_min, y_min), (x_max, y_max), color, 2)
+                    cv2.circle(frame_copy, (centroid_x, centroid_y), 5, color, -1)
                     cv2.putText(
                         frame_copy,
                         f"Centroid: ({centroid_x}, {centroid_y})",
                         (x_min, y_max + 20),
                         cv2.FONT_HERSHEY_SIMPLEX,
                         0.5,
-                        (255, 0, 0),
+                        color,
                         1
                     )
+                else:
+                    print(f"Skipping invalid box: {box.tolist()}")
+        else:
+            print(f"No boxes detected for text: {text}")
 
         return highest_confidence_centroid, highest_confidence_score, processing_time, frame_copy
 
-    cap = cv2.VideoCapture(2)
+    cap = cv2.VideoCapture(camera_index)
     if not cap.isOpened():
         raise RuntimeError("Error: Unable to access the webcam.")
 
@@ -104,13 +113,13 @@ def detect_objects_with_display(model_id, text, frame_end=20):
     cv2.destroyAllWindows()
 
     if selected_frame is not None:
-        print(f"Processing: {text}")
-        centroid, confidence, processing_time, processed_frame = process_frame(selected_frame, text)
+        print(f"Processing: {object_text}")
+        centroid, confidence, processing_time, processed_frame = process_frame(selected_frame, object_text)
 
-        # Display result for the current object
-        cv2.imshow(f"Object Detection Result: {text}", processed_frame)
+        # Display results for the current object
+        cv2.imshow(f"Object Detection Result: {object_text}", processed_frame)
         cv2.waitKey(2000)
-        cv2.destroyWindow(f"Object Detection Result: {text}")
+        cv2.destroyWindow(f"Object Detection Result: {object_text}")
 
         return centroid, confidence, processing_time
     else:
@@ -120,7 +129,7 @@ def detect_objects_with_display(model_id, text, frame_end=20):
 if __name__ == "__main__":
     try:
         model_id = "IDEA-Research/grounding-dino-tiny"
-        centroid, confidence, processing_time = detect_objects_with_display(model_id, "a screwdriver.", 20)
+        centroid, confidence, processing_time = detect_objects(model_id, "a blue circular object.", 20, 2)
         print("Detected centroid:", centroid)
         print("Confidence level:", confidence)
         print("Processing time (seconds):", processing_time)
