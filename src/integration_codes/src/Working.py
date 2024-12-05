@@ -4,7 +4,7 @@ import rospy
 import os
 import efficient_IK as ik
 import pick_place as pp
-import llm_grnd_integ as llm
+import modular_CV_llm as MCVLLM
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -18,8 +18,8 @@ os.environ["TOKENIZERS_PARALLELISM"] = "true"
 detected_centroids = []
 
 def main():
-    # print("Available CV Models:")
-    # model_id = llm.get_available_models()
+
+    model_id = MCVLLM.get_available_models()
     recognizer = sr.Recognizer()
     while True:
         with sr.Microphone() as source:
@@ -42,7 +42,7 @@ def main():
                 continue
 
         # Process the transcribed text with LLM
-        ordered_list = llm.process_speech_text(speech_text)
+        ordered_list = MCVLLM.process_speech_text(speech_text)
         if ordered_list is None:
             print("No actionable commands detected. Exiting.")
             pp.switch_off()
@@ -52,15 +52,17 @@ def main():
 
         # Perform object detection and handle the response
         try:
-            # for i in ordered_list:
-            #     centroid = llm.detect_objects_with_display(ordered_list)
-            #     detected_centroids.append(centroid)
-            detected_centroids = llm.detect_objects_with_display(ordered_list)
+            for i in ordered_list:
+                object_text = "a " + i + "."  # Add "a" before the object name
+                centroid, confidence, processing_time, processed_frame = MCVLLM.detect_objects(model_id, object_text, 30, 2)
+                detected_centroids.append(centroid)
+                print(f"Detected {object_text} with confidence {confidence*100}% at centroid {centroid} in {processing_time:.2f} seconds.")
+            
             xfrom, yfrom = ik.transform_pixels(detected_centroids[0][0], detected_centroids[0][1])
             xto, yto = ik.transform_pixels(detected_centroids[1][0], detected_centroids[1][1])
             print("Detected centroids:", detected_centroids)
             pp.pick_and_place(xfrom, yfrom, xto, yto)
-            print(xfrom, yfrom, xto, yto)
+
         except Exception as e:
             print(f"Error during object detection: {e}")
 

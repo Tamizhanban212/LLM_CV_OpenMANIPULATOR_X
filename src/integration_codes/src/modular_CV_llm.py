@@ -4,11 +4,85 @@ import torch
 import time
 from PIL import Image
 from transformers import AutoProcessor, AutoModelForZeroShotObjectDetection, OmDetTurboForObjectDetection, Owlv2Processor, Owlv2ForObjectDetection, OwlViTProcessor, OwlViTForObjectDetection
+from openai import OpenAI
 
 # Suppress warnings and logs
 os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+
+# Initialize the OpenAI client
+client = OpenAI(
+    base_url="https://api-inference.huggingface.co/v1/",
+    api_key="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"  # Replace with your actual Hugging Face API key
+)
+
+
+def analyze_instruction(speech_text):
+    """
+    Uses the OpenAI API to analyze the instruction and generate a response.
+
+    Args:
+        speech_text: Natural language instruction.
+
+    Returns:
+        Response from the LLM.
+    """
+    messages = [
+        {
+            "role": "user",
+            "content": f"\"{speech_text}\". Give me only the objects and its properties mentioned in the previous sentence in correct order of appearance, separated by commas."
+        }
+    ]
+    
+    try:
+        completion = client.chat.completions.create(
+            model="Qwen/Qwen2.5-72B-Instruct", 
+            messages=messages, 
+            max_tokens=500
+        )
+        
+        output_content = completion.choices[0].message.content
+        return output_content
+    
+    except Exception as e:
+        print(f"Error during LLM inference: {e}")
+        return "Error processing instruction."
+
+def process_speech_text(speech_text):
+    """
+    Processes the given speech text and generates a 'dino_string'.
+
+    Args:
+        speech_text: Input speech text.
+
+    Returns:
+        Dino string (a list of objects in speech_text) or None if a termination keyword is found.
+    """
+    stop_keywords = ["stop", "enough", "terminate", "end"]
+    
+    # Check for stop keywords in the input speech text
+    if any(keyword in speech_text.lower() for keyword in stop_keywords):
+        print("Termination keyword detected in speech_text. Exiting.")
+        return None
+
+    # Analyze the instruction using the LLM
+    response = analyze_instruction(speech_text)
+    if "Error" in response:
+        print("Failed to process instruction.")
+        return None
+
+    # Process the LLM response
+    response_list = response.split(",")
+    response_list = [r.strip() for r in response_list]
+
+    # Remove repetitions
+    response_list = list(dict.fromkeys(response_list))
+
+    # Order response_list according to the object order in speech_text
+    ordered_response_list = sorted(response_list, key=lambda x: speech_text.find(x))
+
+    return ordered_response_list
 
 def detect_objects(model_id, object_text, frame_end=30, camera_index=2):
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -350,6 +424,26 @@ def detect_objects(model_id, object_text, frame_end=30, camera_index=2):
         raise RuntimeError("No frame selected for processing.")
     
     return None
+
+def get_available_models():
+    """
+    Lists the available object detection models.
+
+    Returns:
+        List of available models.
+    """
+    models = {
+        1: "IDEA-Research/grounding-dino-tiny",
+        2: "omlab/omdet-turbo-swin-tiny-hf",
+        3: "google/owlv2-base-patch16-ensemble",
+        4: "google/owlvit-base-patch32"
+    }
+    
+    print("Available Models:")
+    for model_id, model_name in models.items():
+        print(f"Model ID: {model_id}, Model Name: {model_name}")
+    
+    return int(input("Enter the model ID to use: "))
 
 model_id = 4
 
