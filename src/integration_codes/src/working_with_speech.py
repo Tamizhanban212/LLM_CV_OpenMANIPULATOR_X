@@ -21,17 +21,18 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
 
-# Get the relative path to the voices directory
+# Get the relative path to the src/voices directory
 base_dir = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
-voices_dir = os.path.join(base_dir, "voices")          # Path to the voices directory
+voices_dir = os.path.join(base_dir, "voices")          # Path to the voices directory within src
 
 # Define paths to the audio files
 recognized_speech_audio = os.path.join(voices_dir, "speech_recognized.mp3")
 listening_timeout_audio = os.path.join(voices_dir, "listening_timeout.mp3")
 could_not_understand_audio = os.path.join(voices_dir, "try_again.mp3")
-error_occurred_audio = os.path.join(voices_dir, "error_occurred.mp3")
+error_occurred_audio = os.path.join(voices_dir, "object_not_detected.mp3")
 system_shutdown_audio = os.path.join(voices_dir, "shut_down.mp3")
 system_task_completed_audio = os.path.join(voices_dir, "task_successfull.mp3")
+
 
 def main():
     recognizer = sr.Recognizer()

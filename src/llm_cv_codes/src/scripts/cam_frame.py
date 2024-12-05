@@ -2,7 +2,7 @@ import cv2
 
 def main():
     # Open the webcam
-    cap = cv2.VideoCapture(2)  # Use 0 for default webcam, or adjust for other devices
+    cap = cv2.VideoCapture(0)  # Use 0 for default webcam, or adjust for other devices
 
     # Set the desired frame size
     frame_width = 720
