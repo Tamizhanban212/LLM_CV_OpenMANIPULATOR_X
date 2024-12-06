@@ -145,7 +145,7 @@ root = tk.Tk()
 root.title("Speech-Driven Object Detection")
 
 # Frame for processed frame display
-frame_canvas = tk.Canvas(root, width=720, height=720, bg="lightgray")
+frame_canvas = tk.Canvas(root, width=720, height=720, bg="black")
 frame_canvas.pack(pady=10)
 
 # Define a label to display the processed frame (within the canvas)
