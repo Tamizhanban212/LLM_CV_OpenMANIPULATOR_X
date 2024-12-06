@@ -5,7 +5,6 @@ from tkinter import messagebox
 import threading
 import cv2
 import os
-import time
 import queue
 import speech_recognition as sr
 import modular_CV_llm as MCVLLM
