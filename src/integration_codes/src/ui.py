@@ -1,19 +1,21 @@
-import os
+#!/usr/bin/env python3
+import tkinter as tk
+from tkinter import ttk
+from tkinter import messagebox
 import threading
-from tkinter import Tk, Label, Button, Text, Scrollbar, Canvas, VERTICAL, END, messagebox, Frame
+import cv2
+import os
+import time
+import queue
 import speech_recognition as sr
-import rospy
-import efficient_IK as ik
+import modular_CV_llm as MCVLLM
+import text_speech as ts
 import pick_place as pp
-import llm_grnd_integ as llm
-from text_speech import (
-    task_completed_speech,
-    system_shutdown_speech,
-    error_occurred_speech,
-    listening_timed_out_speech,
-    could_not_understand_speech,
-    speech_recognized,
-)
+import efficient_IK as ik
+import warnings
+from PIL import Image, ImageTk  # Import PIL for image handling
+
+warnings.filterwarnings("ignore")
 
 # Suppress warnings and logs
 os.environ["PYTHONWARNINGS"] = "ignore"
@@ -21,358 +23,179 @@ os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
 os.environ["TOKENIZERS_PARALLELISM"] = "true"
 
-# Get the relative path to the src/voices directory
-base_dir = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
-voices_dir = os.path.join(base_dir, "voices")          # Path to the voices directory within src
+# Define global variables
+model_id = 1  # Selected model (1-based index)
+processed_frame = None
 
-# Define paths to the audio files
-recognized_speech_audio = os.path.join(voices_dir, "speech_recognized.mp3")
-listening_timeout_audio = os.path.join(voices_dir, "listening_timeout.mp3")
-could_not_understand_audio = os.path.join(voices_dir, "try_again.mp3")
-error_occurred_audio = os.path.join(voices_dir, "object_not_detected.mp3")
-system_shutdown_audio = os.path.join(voices_dir, "shut_down.mp3")
-system_task_completed_audio = os.path.join(voices_dir, "task_successfull.mp3")
+# A queue to manage log messages
+log_queue = queue.Queue()
 
+def start_listening():
+    log("Code started.")
+    # Start the main process in a separate thread to avoid freezing the UI
+    threading.Thread(target=main_process, daemon=True).start()
 
-class SpeechRecognitionApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Speech Recognition Robot Controller")
-        self.root.geometry("1024x800")
-        self.root.configure(bg="#2E4053")
+def exit_ui():
+    if messagebox.askyesno("Exit", "Are you sure you want to exit?"):
+        pp.switch_off()
+        root.destroy()
 
-        self.recognizer = sr.Recognizer()
-        self.stop_flag = False
+# Utility function to update the frame label
+def show_processed_frame(frame, duration=2000):
+    """Display the processed frame in the UI for a given duration (milliseconds)."""
+    if frame is not None:
+        # Convert the OpenCV frame (BGR) to an image compatible with tkinter (RGB)
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        img = Image.fromarray(frame_rgb)
+        img_tk = ImageTk.PhotoImage(image=img)
 
-        # Title
-        self.title_label = Label(
-            root, text="Speech Recognition Robot Controller", font=("Arial", 20, "bold"), bg="#1ABC9C", fg="#FFFFFF"
-        )
-        self.title_label.pack(fill="x", pady=10)
+        # Update the label with the image
+        frame_label.img_tk = img_tk  # Keep a reference to prevent garbage collection
+        frame_label.configure(image=img_tk)
 
-        # Image display area
-        self.canvas = Canvas(root, width=720, height=480, bg="#34495E", highlightthickness=1, highlightbackground="#1ABC9C")
-        self.canvas.pack(pady=10)
-
-        # Status label
-        self.status_label = Label(
-            root, text="Status: Ready", font=("Arial", 14), bg="#2E4053", fg="#FFFFFF"
-        )
-        self.status_label.pack(pady=5)
-
-        # Logs text area
-        self.logs = Text(root, wrap="word", height=10, width=100, state="normal", bg="#1C2833", fg="#EAECEE", font=("Arial", 10))
-        self.logs.pack(pady=10)
-        self.logs_scrollbar = Scrollbar(
-            root, orient=VERTICAL, command=self.logs.yview
-        )
-        self.logs_scrollbar.pack(side="right", fill="y")
-        self.logs.configure(yscrollcommand=self.logs_scrollbar.set)
-
-        # Button Frame for Centered Buttons
-        self.button_frame = Frame(root, bg="#2E4053")
-        self.button_frame.pack(pady=20)
-
-        # Buttons
-        self.start_button = Button(
-            self.button_frame, text="Start Listening", command=self.start_listening, font=("Arial", 12), bg="#2980B9", fg="#FFFFFF"
-        )
-        self.start_button.grid(row=0, column=0, padx=20)
-
-        self.stop_button = Button(
-            self.button_frame, text="Stop Listening", command=self.stop_listening, font=("Arial", 12), bg="#E74C3C", fg="#FFFFFF"
-        )
-        self.stop_button.grid(row=0, column=1, padx=20)
-
-        self.exit_button = Button(
-            self.button_frame, text="Exit", command=self.exit_app, font=("Arial", 12), bg="#34495E", fg="#FFFFFF"
-        )
-        self.exit_button.grid(row=0, column=2, padx=20)
-
-    def log_message(self, message):
-        """Log messages to the text area."""
-        self.logs.insert(END, f"{message}\n")
-        self.logs.see(END)
-
-    def start_listening(self):
-        """Start the speech recognition process."""
-        self.stop_flag = False
-        self.status_label.config(text="Status: Listening...", bg="#3498DB")
-        threading.Thread(target=self.listen_for_commands, daemon=True).start()
-
-    def stop_listening(self):
-        """Stop the speech recognition process."""
-        self.stop_flag = True
-        self.status_label.config(text="Status: Stopped", bg="#E74C3C")
-        messagebox.showinfo("Info", "Listening stopped.")
-
-    def exit_app(self):
-        """Exit the application."""
-        self.stop_flag = True  # Stop the listening thread
-        rospy.signal_shutdown("Application exited by user")  # Shut down ROS node
-        self.root.quit()  # Stop Tkinter main loop
-        os._exit(0)  # Forcefully terminate all threads
-
-    def listen_for_commands(self):
-        """Main speech recognition loop."""
-        with sr.Microphone() as source:
-            while not self.stop_flag:
-                try:
-                    self.log_message("Listening... Please speak your instruction.")
-                    audio = self.recognizer.listen(source, timeout=5, phrase_time_limit=10)
-                    speech_text = self.recognizer.recognize_google(audio, language="en-IN")
-                    self.log_message(f"Recognized Speech: {speech_text}")
-                    speech_recognized(recognized_speech_audio)
-
-                    # Process the transcribed text with LLM
-                    ordered_list = llm.process_speech_text(speech_text)
-                    if ordered_list is None:
-                        self.log_message("No actionable commands detected. Exiting.")
-                        system_shutdown_speech(system_shutdown_audio)
-                        pp.switch_off()
-                        self.exit_app()
-                        break
-
-                    self.log_message(f"Processed LLM Response: {ordered_list}")
-
-                    # Perform object detection and handle the response
-                    try:
-                        detected_centroids = llm.detect_objects_with_display(ordered_list)
-                        xfrom, yfrom = ik.transform_pixels(
-                            detected_centroids[0][0], detected_centroids[0][1]
-                        )
-                        xto, yto = ik.transform_pixels(
-                            detected_centroids[1][0], detected_centroids[1][1]
-                        )
-                        pp.pick_and_place(xfrom, yfrom, xto, yto)
-                        self.log_message(
-                            f"Pick and place completed: {xfrom, yfrom} -> {xto, yto}"
-                        )
-                        task_completed_speech(system_task_completed_audio)
-                    except Exception as e:
-                        self.log_message(f"Error during object detection: {e}")
-                        error_occurred_speech(error_occurred_audio)
-
-                except sr.WaitTimeoutError:
-                    self.log_message("Listening timed out. Please try again.")
-                    listening_timed_out_speech(listening_timeout_audio)
-                except sr.UnknownValueError:
-                    self.log_message("Could not understand the audio. Please try again.")
-                    could_not_understand_speech(could_not_understand_audio)
-                except sr.RequestError as e:
-                    self.log_message(f"Error with speech recognition service: {e}")
-                    error_occurred_speech(error_occurred_audio)
-                except Exception as e:
-                    self.log_message(f"Unexpected Error: {e}")
-                    error_occurred_speech(error_occurred_audio)
-
-        self.status_label.config(text="Status: Ready", bg="#2E4053")
+        # Schedule clearing the frame after the specified duration
+        root.after(duration, lambda: frame_label.configure(image=""))
+    else:
+        frame_label.configure(image="")
 
 
-if __name__ == "__main__":
-    def start_tkinter():
-        """Start the Tkinter GUI."""
-        root = Tk()
-        app = SpeechRecognitionApp(root)
-        root.mainloop()
+def main_process():
+    global processed_frame, model_id
 
-    # Initialize the ROS node in the main thread
-    rospy.init_node("speech_recognition_ui", anonymous=True)
+    ts.text_to_speech("Hello! I am ready to assist you.")
+    ts.text_to_speech("Starting with the selected model.")
+    
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
+        ts.text_to_speech("Please speak now!")
+        log("Listening... Please speak your instruction.")
+        try:
+            # Capture audio input
+            audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
+            speech_text = recognizer.recognize_google(audio, language="en-IN")
+            log(f"Recognized Speech: {speech_text}")
+            ts.text_to_speech("Speech recognized.")
+        except sr.WaitTimeoutError:
+            log("Listening timed out. Please try again.")
+            ts.text_to_speech("Please try again.")
+            return
+        except sr.UnknownValueError:
+            log("Could not understand the audio. Please try again.")
+            ts.text_to_speech("Could not understand the audio. Please try again.")
+            return
+        except sr.RequestError as e:
+            log(f"Error with speech recognition service: {e}")
+            ts.text_to_speech("Error with speech recognition service. Please try again.")
+            return
 
-    # Run Tkinter in a separate thread
-    tkinter_thread = threading.Thread(target=start_tkinter, daemon=True)
-    tkinter_thread.start()
+    ordered_list = MCVLLM.process_speech_text(speech_text)
+    log(f"Processed LLM Response: {ordered_list}")
+    if ordered_list is None:
+        log("No actionable commands detected. Exiting.")
+        ts.text_to_speech("No actionable commands detected. Shutting down.")
+        pp.switch_off()
+        return
 
-    # Keep the ROS node running
-    rospy.spin()
+    detected_centroids = []
 
+    try:
+        for i in ordered_list:
+            log(f"Processing: {i}")
+            object_text = "a " + i + "."
+            try:
+                centroid, confidence, processing_time, processed_frame = MCVLLM.detect_objects(
+                    model_id, object_text, 30, 0
+                )
+                detected_centroids.append(centroid)
 
-# import os
-# import threading
-# from tkinter import Tk, Label, Button, Text, Scrollbar, Canvas, VERTICAL, END, messagebox, Frame
-# import speech_recognition as sr
-# import rospy
-# import efficient_IK as ik
-# import pick_place as pp
-# import llm_grnd_integ as llm
-# from text_speech import (
-#     task_completed_speech,
-#     system_shutdown_speech,
-#     error_occurred_speech,
-#     listening_timed_out_speech,
-#     could_not_understand_speech,
-#     speech_recognized,
-# )
+                # Show the processed frame in the UI for 2 seconds
+                show_processed_frame(processed_frame, duration=2000)
+                log(f"Detected {object_text} with confidence {confidence*100}% at centroid {centroid} in {processing_time:.2f} seconds.")
+                
+            except Exception as e:
+                log(f"Error during detection: {e}")
+                ts.text_to_speech("Error during object detection. Please try again.")
+                return
+        
+        xfrom, yfrom = ik.transform_pixels(detected_centroids[0][0], detected_centroids[0][1])
+        xto, yto = ik.transform_pixels(detected_centroids[1][0], detected_centroids[1][1])
+        pp.pick_and_place(xfrom, yfrom, xto, yto)
+        completed_text = MCVLLM.complete_action_text(speech_text)
+        log(completed_text)
+        ts.text_to_speech(completed_text)
 
-# # Suppress warnings and logs
-# os.environ["PYTHONWARNINGS"] = "ignore"
-# os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
-# os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
-# os.environ["TOKENIZERS_PARALLELISM"] = "true"
-
-# # Get the relative path to the src/voices directory
-# base_dir = os.path.dirname(os.path.abspath(__file__))  # Get the directory of the current script
-# voices_dir = os.path.join(base_dir, "voices")          # Path to the voices directory within src
-
-# # Define paths to the audio files
-# recognized_speech_audio = os.path.join(voices_dir, "speech_recognized.mp3")
-# listening_timeout_audio = os.path.join(voices_dir, "listening_timeout.mp3")
-# could_not_understand_audio = os.path.join(voices_dir, "try_again.mp3")
-# error_occurred_audio = os.path.join(voices_dir, "object_not_detected.mp3")
-# system_shutdown_audio = os.path.join(voices_dir, "shut_down.mp3")
-# system_task_completed_audio = os.path.join(voices_dir, "task_successfull.mp3")
-
-
-# class SpeechRecognitionApp:
-#     def __init__(self, root):
-#         self.root = root
-#         self.root.title("Speech Recognition Robot Controller")
-#         self.root.geometry("1024x800")
-#         self.root.configure(bg="#2E4053")
-
-#         self.recognizer = sr.Recognizer()
-#         self.stop_flag = False
-
-#         # Title
-#         self.title_label = Label(
-#             root, text="Speech Recognition Robot Controller", font=("Arial", 20, "bold"), bg="#1ABC9C", fg="#FFFFFF"
-#         )
-#         self.title_label.pack(fill="x", pady=10)
-
-#         # Image display area
-#         self.canvas = Canvas(root, width=720, height=720, bg="#34495E", highlightthickness=1, highlightbackground="#1ABC9C")
-#         self.canvas.pack(pady=10)
-
-#         # Status label
-#         self.status_label = Label(
-#             root, text="Status: Ready", font=("Arial", 14), bg="#2E4053", fg="#FFFFFF"
-#         )
-#         self.status_label.pack(pady=5)
-
-#         # Logs text area
-#         self.logs = Text(root, wrap="word", height=10, width=100, state="normal", bg="#1C2833", fg="#EAECEE", font=("Arial", 10))
-#         self.logs.pack(pady=10)
-#         self.logs_scrollbar = Scrollbar(
-#             root, orient=VERTICAL, command=self.logs.yview
-#         )
-#         self.logs_scrollbar.pack(side="right", fill="y")
-#         self.logs.configure(yscrollcommand=self.logs_scrollbar.set)
-
-#         # Button Frame for Centered Buttons
-#         self.button_frame = Frame(root, bg="#2E4053")
-#         self.button_frame.pack(pady=20)
-
-#         # Buttons
-#         self.start_button = Button(
-#             self.button_frame, text="Start Listening", command=self.start_listening, font=("Arial", 12), bg="#2980B9", fg="#FFFFFF"
-#         )
-#         self.start_button.grid(row=0, column=0, padx=20)
-
-#         self.stop_button = Button(
-#             self.button_frame, text="Stop Listening", command=self.stop_listening, font=("Arial", 12), bg="#E74C3C", fg="#FFFFFF"
-#         )
-#         self.stop_button.grid(row=0, column=1, padx=20)
-
-#         self.exit_button = Button(
-#             self.button_frame, text="Exit", command=self.exit_app, font=("Arial", 12), bg="#34495E", fg="#FFFFFF"
-#         )
-#         self.exit_button.grid(row=0, column=2, padx=20)
-
-#     def log_message(self, message):
-#         """Log messages to the text area."""
-#         self.logs.insert(END, f"{message}\n")
-#         self.logs.see(END)
-
-#     def start_listening(self):
-#         """Start the speech recognition process."""
-#         self.stop_flag = False
-#         self.status_label.config(text="Status: Listening...", bg="#3498DB")
-#         threading.Thread(target=self.listen_for_commands, daemon=True).start()
-
-#     def stop_listening(self):
-#         """Stop the speech recognition process."""
-#         self.stop_flag = True
-#         self.status_label.config(text="Status: Stopped", bg="#E74C3C")
-#         messagebox.showinfo("Info", "Listening stopped.")
-
-#     def exit_app(self):
-#         """Exit the application."""
-#         self.stop_flag = True  # Stop the listening thread
-#         rospy.signal_shutdown("Application exited by user")  # Shut down ROS node
-#         self.root.quit()  # Stop Tkinter main loop
-#         os._exit(0)  # Forcefully terminate all threads
-
-#     def listen_for_commands(self):
-#         """Main speech recognition loop."""
-#         with sr.Microphone() as source:
-#             while not self.stop_flag:
-#                 try:
-#                     self.log_message("Listening... Please speak your instruction.")
-#                     audio = self.recognizer.listen(source, timeout=5, phrase_time_limit=10)
-#                     speech_text = self.recognizer.recognize_google(audio, language="en-IN")
-#                     self.log_message(f"Recognized Speech: {speech_text}")
-#                     speech_recognized(recognized_speech_audio)
-
-#                     # Process the transcribed text with LLM
-#                     ordered_list = llm.process_speech_text(speech_text)
-#                     if ordered_list is None:
-#                         self.log_message("No actionable commands detected. Exiting.")
-#                         system_shutdown_speech(system_shutdown_audio)
-#                         pp.switch_off()
-#                         self.exit_app()
-#                         break
-
-#                     self.log_message(f"Processed LLM Response: {ordered_list}")
-
-#                     # Perform object detection and handle the response
-#                     try:
-#                         detected_centroids = llm.detect_objects_with_display(ordered_list)
-#                         xfrom, yfrom = ik.transform_pixels(
-#                             detected_centroids[0][0], detected_centroids[0][1]
-#                         )
-#                         xto, yto = ik.transform_pixels(
-#                             detected_centroids[1][0], detected_centroids[1][1]
-#                         )
-#                         pp.pick_and_place(xfrom, yfrom, xto, yto)
-#                         self.log_message(
-#                             f"Pick and place completed: {xfrom, yfrom} -> {xto, yto}"
-#                         )
-#                         task_completed_speech(system_task_completed_audio)
-#                     except Exception as e:
-#                         self.log_message(f"Error during object detection: {e}")
-#                         error_occurred_speech(error_occurred_audio)
-
-#                 except sr.WaitTimeoutError:
-#                     self.log_message("Listening timed out. Please try again.")
-#                     listening_timed_out_speech(listening_timeout_audio)
-#                 except sr.UnknownValueError:
-#                     self.log_message("Could not understand the audio. Please try again.")
-#                     could_not_understand_speech(could_not_understand_audio)
-#                 except sr.RequestError as e:
-#                     self.log_message(f"Error with speech recognition service: {e}")
-#                     error_occurred_speech(error_occurred_audio)
-#                 except Exception as e:
-#                     self.log_message(f"Unexpected Error: {e}")
-#                     error_occurred_speech(error_occurred_audio)
-
-#         self.status_label.config(text="Status: Ready", bg="#2E4053")
+    except Exception as e:
+        log(f"Error during object detection: {e}")
+        ts.text_to_speech("Error during object detection. Please try again.")
 
 
-# if __name__ == "__main__":
-#     def start_tkinter():
-#         """Start the Tkinter GUI."""
-#         root = Tk()
-#         app = SpeechRecognitionApp(root)
-#         root.mainloop()
+# Utility function to log messages
+def log(message):
+    log_queue.put(message)
 
-#     # Initialize the ROS node in the main thread
-#     rospy.init_node("speech_recognition_ui", anonymous=True)
+def update_log_window():
+    while not log_queue.empty():
+        message = log_queue.get_nowait()
+        log_text.insert(tk.END, message + "\n")
+        log_text.see(tk.END)
+    root.after(100, update_log_window)
 
-#     # Run Tkinter in a separate thread
-#     tkinter_thread = threading.Thread(target=start_tkinter, daemon=True)
-#     tkinter_thread.start()
+# Tkinter UI setup
+root = tk.Tk()
+root.title("Speech-Driven Object Detection")
 
-#     # Keep the ROS node running
-#     rospy.spin()
+# Frame for processed frame display
+frame_canvas = tk.Canvas(root, width=720, height=720, bg="lightgray")
+frame_canvas.pack(pady=10)
 
+# Define a label to display the processed frame (within the canvas)
+frame_label = tk.Label(frame_canvas, bg="black")  # Black background for the label
+frame_label.place(relx=0.5, rely=0.5, anchor=tk.CENTER)  # Center the label in the canvas
 
+# Dropdown menu for model selection
+model_label = tk.Label(root, text="Select Model:")
+model_label.pack()
+
+model_dropdown = ttk.Combobox(
+    root,
+    state="readonly",
+    values=[
+        "IDEA-Research/grounding-dino-tiny",
+        "omlab/omdet-turbo-swin-tiny-hf",
+        "google/owlv2-base-patch16-ensemble",
+        "google/owlvit-base-patch32"
+    ],
+    width=30  # Adjust the width of the dropdown menu
+)
+model_dropdown.pack()
+model_dropdown.current(0)
+
+def set_model():
+    global model_id
+    model_id = model_dropdown.current() + 1  # Adjusting for 1-based indexing
+    log(f"Selected Model ID: {model_id}")
+
+model_dropdown.bind("<<ComboboxSelected>>", lambda e: set_model())
+
+# Buttons
+button_frame = tk.Frame(root)
+button_frame.pack(pady=10)
+
+start_button = tk.Button(button_frame, text="Start Listening", command=start_listening)
+start_button.pack(side=tk.LEFT, padx=5)
+
+exit_button = tk.Button(button_frame, text="Exit", command=exit_ui)
+exit_button.pack(side=tk.LEFT, padx=5)
+
+# Log window
+log_label = tk.Label(root, text="Log:")
+log_label.pack()
+
+log_text = tk.Text(root, height=15, width=100, state="normal", wrap="word")
+log_text.pack(pady=5)
+
+# Start updating the log window
+update_log_window()
+
+# Run the Tkinter event loop
+root.mainloop()

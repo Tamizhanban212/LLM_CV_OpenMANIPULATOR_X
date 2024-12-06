@@ -193,7 +193,7 @@ def detect_objects_with_display(ordered_list, frame_start=10, frame_end=20):
 
 
 def main():
-    speech_text = "look at the cylinderical coil"
+    speech_text = "look at the cardboard box"
     ordered_list = process_speech_text(speech_text)
 
     if ordered_list is None:

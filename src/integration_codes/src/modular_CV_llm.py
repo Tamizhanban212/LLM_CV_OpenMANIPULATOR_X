@@ -61,7 +61,7 @@ def analyze_instruction(speech_text):
     messages = [
         {
             "role": "user",
-            "content": f"\"{speech_text}\". Give me only the objects and its properties mentioned in the previous sentence in correct order of appearance, separated by commas."
+            "content": f"\"{speech_text}\". Give me only the two objects and its properties mentioned in the previous sentence in correct order of appearance, separated by commas."
         }
     ]
     
