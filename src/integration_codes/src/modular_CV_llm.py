@@ -17,6 +17,36 @@ client = OpenAI(
     api_key="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"  # Replace with your actual Hugging Face API key
 )
 
+def complete_action_text(speech_text):
+    """
+    Completes the action text using the LLM.
+
+    Args:
+        speech_text: Input speech text.
+
+    Returns:
+        Completed action text.
+    """
+    messages = [
+        {
+            "role": "user",
+            "content": f"\"{speech_text}\". Now form a sentence which accomplished the task given."
+        }
+    ]
+    
+    try:
+        completion = client.chat.completions.create(
+            model="Qwen/Qwen2.5-72B-Instruct", 
+            messages=messages, 
+            max_tokens=500
+        )
+        
+        output_content = completion.choices[0].message.content
+        return output_content
+    
+    except Exception as e:
+        print(f"Error during LLM inference: {e}")
+        return "Error processing instruction."
 
 def analyze_instruction(speech_text):
     """
