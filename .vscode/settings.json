@@ -9,5 +9,5 @@
         "/home/aarav2708/open_x/devel/lib/python3/dist-packages",
         "/opt/ros/noetic/lib/python3/dist-packages"
     ],
-    "cmake.sourceDirectory": "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/llm_codes"
+    "cmake.sourceDirectory": "/home/tamizhanban/Documents/LLM_CV_OpenMANIPULATOR_X/src/integration_codes"
 }
