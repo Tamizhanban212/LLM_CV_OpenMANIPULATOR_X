@@ -7,6 +7,7 @@ import pick_place as pp
 import modular_CV_llm as MCVLLM
 import warnings
 import text_speech as ts
+import cv2
 
 warnings.filterwarnings("ignore")
 
@@ -25,8 +26,8 @@ def main():
     recognizer = sr.Recognizer()
     while True:
         with sr.Microphone() as source:
-            print("Listening... Please speak your instruction.")
             ts.text_to_speech("Please speak now!")
+            print("Listening... Please speak your instruction.")
             try:
                 # Capture audio input
                 audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
@@ -62,8 +63,11 @@ def main():
         try:
             for i in ordered_list:
                 object_text = "a " + i + "."  # Add "a" before the object name
-                centroid, confidence, processing_time, processed_frame = MCVLLM.detect_objects(model_id, object_text, 30, 2)
+                centroid, confidence, processing_time, processed_frame = MCVLLM.detect_objects(model_id, object_text, 20, 0)
                 detected_centroids.append(centroid)
+                cv2.imshow(f"Object Detection Result: {object_text}", processed_frame)
+                cv2.waitKey(2000)
+                cv2.destroyWindow(f"Object Detection Result: {object_text}")
                 print(f"Detected {object_text} with confidence {confidence*100}% at centroid {centroid} in {processing_time:.2f} seconds.")
             
             xfrom, yfrom = ik.transform_pixels(detected_centroids[0][0], detected_centroids[0][1])

@@ -89,7 +89,7 @@ def process_speech_text(speech_text):
     Returns:
         Dino string (a list of objects in speech_text) or None if a termination keyword is found.
     """
-    stop_keywords = ["stop", "enough", "terminate", "end"]
+    stop_keywords = ["stop", "enough", "terminate", "end", "close", "shut", "off", "exit", "quit"]
     
     # Check for stop keywords in the input speech text
     if any(keyword in speech_text.lower() for keyword in stop_keywords):
@@ -443,11 +443,6 @@ def detect_objects(model_id, object_text, frame_end=30, camera_index=2):
         
         else:
             raise ValueError("Something went wrong. Please try again.")
-        
-        # Display results for the current object
-        cv2.imshow(f"Object Detection Result: {object_text}", processed_frame)
-        cv2.waitKey(2000)
-        cv2.destroyWindow(f"Object Detection Result: {object_text}")
 
         return centroid, confidence, processing_time, processed_frame
     else:
