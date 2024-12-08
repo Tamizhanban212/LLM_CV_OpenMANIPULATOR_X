@@ -30,7 +30,7 @@ def complete_action_text(speech_text):
     messages = [
         {
             "role": "user",
-            "content": f"\"{speech_text}\". Now form a sentence which accomplished the task given."
+            "content": f"\"{speech_text}\". Now say that you have placed the object asked to place."
         }
     ]
     

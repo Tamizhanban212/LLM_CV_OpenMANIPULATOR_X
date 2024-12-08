@@ -15,7 +15,7 @@ def main():
     while True:
         ret, frame = cap.read()
         if not ret:
-            print("Error: Unable to capture frame.")
+            print("Error: Unable to capture frame.")                                                                  
             break
 
         # Display the camera feed

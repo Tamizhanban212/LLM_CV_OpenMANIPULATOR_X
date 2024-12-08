@@ -16,8 +16,6 @@ import warnings
 import time
 from PIL import Image, ImageTk  # Import PIL for image handling
 
-camera_index = 0  # Index of the camera to use (0 for the default camera)
-
 warnings.filterwarnings("ignore")
 
 # Suppress warnings and logs
@@ -66,17 +64,14 @@ def show_processed_frame(frame, duration=2000):
 
 def capture_live_feed():
     global capturing
-    cap = cv2.VideoCapture(camera_index)  # Open the default camera
+    cap = cv2.VideoCapture(0)  # Open the default camera
     while capturing:
         ret, frame = cap.read()
         if ret:
-            # Resize the frame to 720x720
-            frame_resized = cv2.resize(frame, (720, 720))
             # Put the frame in the queue
-            frame_queue.put(frame_resized)
+            frame_queue.put(frame)
         time.sleep(0.033)  # Update approximately every 33ms (30fps)
     cap.release()
-
 
 def update_frame_label():
     """Update the frame label with the latest frame from the queue."""
@@ -160,7 +155,7 @@ def main_process():
                 detected_centroids.append(centroid)
 
                 # Show the processed frame in the UI for 2 seconds
-                show_processed_frame(processed_frame, duration=2000, camera_index=camera_index)
+                show_processed_frame(processed_frame, duration=2000)
                 log(f"Detected {object_text} with confidence {confidence*100}% at centroid {centroid} in {processing_time:.2f} seconds.")
                 
             except Exception as e:
