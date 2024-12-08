@@ -12,6 +12,7 @@ import text_speech as ts
 import pick_place as pp
 import efficient_IK as ik
 import warnings
+import time
 from PIL import Image, ImageTk  # Import PIL for image handling
 
 warnings.filterwarnings("ignore")
@@ -37,6 +38,7 @@ def start_listening():
 def exit_ui():
     if messagebox.askyesno("Exit", "Are you sure you want to exit?"):
         pp.switch_off()
+        ts.text_to_speech("Shutting down. Goodbye!")
         root.destroy()
 
 # Utility function to update the frame label
@@ -60,17 +62,16 @@ def show_processed_frame(frame, duration=2000):
 
 def main_process():
     global processed_frame, model_id
-
-    ts.text_to_speech("Hello! I am ready to assist you.")
     ts.text_to_speech("Starting with the selected model.")
-    
+    ts.text_to_speech("Please speak now!")
+    time.sleep(0.5)
     recognizer = sr.Recognizer()
+
+    log("Listening... Please speak your instruction.")
     with sr.Microphone() as source:
-        ts.text_to_speech("Please speak now!")
-        log("Listening... Please speak your instruction.")
         try:
             # Capture audio input
-            audio = recognizer.listen(source, timeout=5, phrase_time_limit=10)
+            audio = recognizer.listen(source, timeout=6, phrase_time_limit=10)
             speech_text = recognizer.recognize_google(audio, language="en-IN")
             log(f"Recognized Speech: {speech_text}")
             ts.text_to_speech("Speech recognized.")
@@ -195,6 +196,6 @@ log_text.pack(pady=5)
 
 # Start updating the log window
 update_log_window()
-
+ts.text_to_speech("Hello! I am ready to assist you.")
 # Run the Tkinter event loop
 root.mainloop()

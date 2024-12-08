@@ -55,17 +55,18 @@ def control_joint(joint_names, positions, gripper_pos, path_t):
         rospy.logerr("Service call failed: %s", e)
 
 def transform_pixels(x,y):
-    ym = (x - 447)*0.000625
-    xm = (y - 40)*0.000625
+    ym = (x - 445)*0.000625
+    xm = (y - 20)*0.000625
     return xm, ym
 
 if __name__ == "__main__":
     rospy.init_node('joint_control_node', anonymous=True)
     
     # User-provided list of (x, y, z, orientation, path_t, gripper_pos)
-    xm, ym = transform_pixels(535, 319)
+    xm, ym = transform_pixels(629, 330)
     movements = [
-        (0, 0.15, 0.07, -80, 1.5, "open"),
+        (xm, ym, 0.1, -50, 1.2, "open"),
+        (xm, ym, -0.01, -80, 1.2, "open"),
         # (0, 0.15, 0.07, -80, 1.5, "close"),
         # (0.2, 0.0, 0, -80, 1.5, "open")
     ]
