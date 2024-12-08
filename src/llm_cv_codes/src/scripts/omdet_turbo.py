@@ -138,7 +138,7 @@ def detect_objects_omdet(model_id, object_text, frame_end=20, camera_index=2):
 if __name__ == "__main__":
     try:
         model_id = "omlab/omdet-turbo-swin-tiny-hf"
-        centroid, confidence, processing_time = detect_objects_omdet(model_id, "a screwdriver.", 30, 2)
+        centroid, confidence, processing_time = detect_objects_omdet(model_id, "a spanner.", 30, 0)
         print("Detected centroid:", centroid)
         print("Confidence level:", confidence)
         print("Processing time (seconds):", processing_time)

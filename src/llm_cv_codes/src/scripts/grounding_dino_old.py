@@ -142,7 +142,7 @@ def detect_objects(model_id, object_text, frame_end=20, camera_index=2):
 if __name__ == "__main__":
     try:
         model_id = "IDEA-Research/grounding-dino-tiny"
-        centroid, confidence, processing_time = detect_objects(model_id, "a cardboard box.", 20, 0)
+        centroid, confidence, processing_time = detect_objects(model_id, "a ball bearing.", 20, 0)
         print("Detected centroid:", centroid)
         print("Confidence level:", confidence)
         print("Processing time (seconds):", processing_time)

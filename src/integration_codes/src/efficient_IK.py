@@ -55,7 +55,7 @@ def control_joint(joint_names, positions, gripper_pos, path_t):
         rospy.logerr("Service call failed: %s", e)
 
 def transform_pixels(x,y):
-    ym = (x - 440)*0.000625
+    ym = (x - 435)*0.000625
     xm = (y - 15)*0.000625
     return xm, ym
 

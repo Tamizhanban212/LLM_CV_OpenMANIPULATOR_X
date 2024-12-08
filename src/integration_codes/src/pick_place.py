@@ -19,10 +19,10 @@ def pick_and_place(xfrom, yfrom, xto, yto):
     movements = [
         (0, 0.15, 0.1, -50, 1.5, "open"),
         (xfrom, yfrom, 0.1, -50, 1.2, "open"),
-        (xfrom, yfrom, -0.01, -70, 1.2, "close"),
+        (xfrom, yfrom, -0.02, -70, 1.2, "close"),
         (xfrom, yfrom, 0.1, -50, 1.2, "close"),
         (xto, yto, 0.1, -50, 1.5, "close"),
-        (xto, yto, 0.04, -70, 1.2, "open"),
+        (xto, yto, 0.09, -70, 1.2, "open"),
         (xto, yto, 0.1, -50, 1.2, "open"),
         (0, 0.15, 0.1, -50, 1.2, "open"),
     ]
