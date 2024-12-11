@@ -1,0 +1,11 @@
+image file name,input text,1/0,confidence,processing time
+black_paper_clip.jpg,a black paper clip.,1,0.32528144121170044,18.53098487854004
+scissor.jpg,a scissor.,1,0.6576257348060608,15.583791732788086
+blue_square.jpg,a blue square.,1,0.5768487453460693,14.384588718414307
+green_highlighter.jpg,a green highlighter.,1,0.5165282487869263,15.26997971534729
+yellow_rectangle.jpg,a yellow rectangle.,1,0.9099363684654236,14.730597972869873
+yellow_highlighter.jpg,a yellow highlighter.,0,0.46303167939186096,14.566559076309204
+orange_highlighter.jpg,a orange highlighter.,1,0.3225383460521698,14.832828521728516
+green_square_note.jpg,a green square note.,1,0.38518285751342773,15.283590316772461
+orange_circle.jpg,a orange circle.,1,0.9068379402160645,14.635055303573608
+red_triangle.jpg,a red triangle.,1,0.8375993967056274,14.647946834564209
