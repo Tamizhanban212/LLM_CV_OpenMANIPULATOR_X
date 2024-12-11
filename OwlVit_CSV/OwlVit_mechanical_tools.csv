@@ -1,0 +1,21 @@
+image file name,input text,1/0,confidence,processing time
+black_spring.jpg,a black spring.,1,0.33084744215011597,1.4058940410614014
+handsaw.jpg,a handsaw.,0,0,1.1495463848114014
+black_metal_file.jpg,a black metal file.,0,0,1.172419786453247
+steel_bolt.jpg,a steel bolt.,0,0,1.1519598960876465
+screw_driver.jpg,a screw driver.,1,0.2389315813779831,1.1377971172332764
+pliers.jpg,a pliers.,1,0.11960262805223465,1.1614978313446045
+circular_ball_bearing.jpg,a circular ball bearing.,1,0.45766380429267883,1.1411142349243164
+drill_bit.jpg,a drill bit.,1,0.10909135639667511,1.1501855850219727
+wooden_mallet.jpg,a wooden mallet.,1,0.1701814830303192,1.1929161548614502
+hexagonal_nut.jpg,a hexagonal nut.,1,0.20733116567134857,1.180159330368042
+wooden_chisel.jpg,a wooden chisel.,1,0.21509034931659698,1.1800587177276611
+steel_ruler.jpg,a steel ruler.,1,0.8960238695144653,1.1841764450073242
+spanner.jpg,a spanner.,1,0.4593764841556549,1.1550817489624023
+yellow_paint_brush.jpg,a yellow paint brush.,0,0.34118416905403137,1.1500482559204102
+black_nail.jpg,a black nail.,0,0,1.1571640968322754
+black_circular_gear.jpg,a black circular gear.,1,0.12409666925668716,1.1262938976287842
+yellow_measuring_tape.jpg,a yellow measuring tape.,0,0.14329928159713745,1.1766531467437744
+hammer.jpg,a hammer.,1,0.22511780261993408,1.159627914428711
+iron_screw.jpg,a iron screw.,1,0.14368799328804016,1.2094666957855225
+allen_key.jpg,a allen key.,0,0,1.1651079654693604

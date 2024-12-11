@@ -1,0 +1,21 @@
+image file name,input text,1/0,confidence,processing time
+cylindrical_coil.jpg,a cylindrical coil.,0,0,1.214141607284546
+transparent_screwdriver.jpg,a transparent screwdriver.,1,0.21986228227615356,1.1439030170440674
+cylindrical_DC_motor.jpg,a cylindrical DC motor.,1,0.24868008494377136,1.1559371948242188
+blue_cylindrical_capacitor.jpg,a blue cylindrical capacitor.,1,0.10295940935611725,1.1391987800598145
+black_fan.jpg,a black fan.,0,0.14146003127098083,1.1600844860076904
+black_wire_cutters.jpg,a black wire cutters.,0,0,1.1282744407653809
+light_bulb.jpg,a light bulb.,1,0.7946375608444214,1.1394541263580322
+white_square_switch.jpg,a white square switch.,1,0.34555137157440186,1.1440222263336182
+steel_cylindrical_battery.jpg,a steel cylindrical battery.,1,0.10577413439750671,1.1576154232025146
+black_circular_tape.jpg,a black circular tape.,1,0.33053964376449585,1.137054204940796
+green_LCD_display.jpg,a green LCD display.,1,0.10371706634759903,1.1270713806152344
+black_transistor.jpg,a black transistor.,1,0.12616413831710815,1.157712697982788
+black_circular_buzzer.jpg,a black circular buzzer.,1,0.22983869910240173,1.1495943069458008
+square_CPU.jpg,a square CPU.,0,0,1.141982078552246
+steel_circular_battery.jpg,a steel circular battery.,1,0.2143954038619995,1.1420598030090332
+black_soldering_iron.jpg,a black soldering iron.,1,0.164181187748909,1.1489334106445312
+orange_rectangular_multimeter.jpg,a orange rectangular multimeter.,0,0.33985790610313416,1.1205921173095703
+circular_copper_coil.jpg,a circular copper coil.,1,0.7291812300682068,1.1382331848144531
+circular_speaker.jpg,a circular speaker.,1,0.37721049785614014,1.1337580680847168
+blue_cylindrical_LED.jpg,a blue cylindrical LED.,1,0.21744468808174133,1.1284608840942383
