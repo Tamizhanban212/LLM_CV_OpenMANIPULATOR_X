@@ -1,0 +1,16 @@
+For free licensed images:
+
+https://www.freepik.com/
+https://www.vecteezy.com/
+https://unsplash.com/ 
+
+
+LLM:
+https://huggingface.co/Qwen/Qwen2.5-72B-Instruct
+
+GDINO:
+https://huggingface.co/IDEA-Research/grounding-dino-tiny
+https://www.ikomia.ai/blog/grounding-dino-zero-shot-detection-explained?form=MG0AV3
+
+
+	
