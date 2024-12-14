@@ -2,3 +2,4 @@ build/
 devel/
 src/vllm_code/myenv/
 src/vllm_code/src/scripts/Detic
+videos/
