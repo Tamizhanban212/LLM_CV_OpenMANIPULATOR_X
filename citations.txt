@@ -12,5 +12,33 @@ GDINO:
 https://huggingface.co/IDEA-Research/grounding-dino-tiny
 https://www.ikomia.ai/blog/grounding-dino-zero-shot-detection-explained?form=MG0AV3
 
+OmDet:
+https://huggingface.co/omlab/omdet-turbo-swin-tiny-hf
+https://qubitpi.github.io/huggingface-transformers/model_doc/swin?form=MG0AV3
 
-	
+OWL-ViT:
+https://huggingface.co/google/owlvit-base-patch32
+
+OWL-V2:
+https://huggingface.co/google/owlv2-base-patch16-ensemble
+
+IK solver
+https://hive.blog/hive-196387/@juecoree/forward-and-reverse-kinematics-for-3r-planar-manipulator
+
+
+Code snippets should not be there
+flowchart should be better
+Teaser figure should change
+figure 3. optional
+figure 4. my own figure
+Captions should be more detailed
+Experimental validation
+	task description
+	dataset used
+	experimental results
+		Case 1
+		Case 2
+		Case 3
+
+introduction
+article structure and contributions (novelty)
