@@ -1,4 +1,5 @@
-# Project Title: LLM-CV Integration with OpenMANIPULATOR-X
+# Project Title: LLM and Modular CV Integration for Robot Pick-and-Place Assistance to a
+Human
 
 This project demonstrates the integration of Large Language Models (LLMs) with computer vision (CV) systems to control the OpenMANIPULATOR-X robot. The implementation showcases the use of machine learning for effective robotic manipulations, alongside visual demonstrations.
 
