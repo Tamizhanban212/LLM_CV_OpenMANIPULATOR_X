@@ -15,7 +15,7 @@ This project demonstrates the integration of Large Language Models (LLMs) with c
 
 ## Introduction
 
-This project combines advanced Large Language Models and computer vision techniques to interact with the OpenMANIPULATOR-X robot. The primary objective is to demonstrate how LLMs can process and interpret data to execute robotic actions. The system leverages vision-based feedback and pre-trained LLMs to achieve efficient manipulation tasks.
+This project combines advanced Large Language Models and computer vision techniques to interact with the OpenMANIPULATOR-X robotic arm. The primary objective is to demonstrate how LLMs can process and interpret data to execute robotic actions. The system leverages vision-based feedback and pre-trained LLMs to achieve efficient manipulation tasks.
 
 ---
 
